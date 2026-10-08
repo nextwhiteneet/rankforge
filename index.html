@@ -431,26 +431,16 @@
     </div>
 
     <div data-rv class="card p-6 md:p-8 mt-5">
-      <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500 flex items-center gap-2"><i data-lucide="cloud" class="w-4 h-4 text-ice"></i> CLOUD SYNC · GITHUB</div>
-      <p class="text-xs text-zinc-500 mt-3 leading-relaxed">Saves every mark and history into a JSON file in a GitHub repo, so all your devices show the same data. Use a <b class="text-zinc-300">private repo</b> for the data (your site repo can be separate). Make a fine-grained token limited to that repo with <b class="text-zinc-300">Contents: Read and write</b>. The token stays only in this browser &mdash; it is never written into the page or the repo.</p>
-      <div class="grid sm:grid-cols-2 gap-4 mt-5">
-        <div><label class="text-xs text-zinc-400 font-medium block mb-2">GitHub username</label><input id="gOwner" type="text" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false"></div>
-        <div><label class="text-xs text-zinc-400 font-medium block mb-2">Data repo name</label><input id="gRepo" type="text" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false" placeholder="rankforge-data"></div>
-        <div><label class="text-xs text-zinc-400 font-medium block mb-2">Branch</label><input id="gBranch" type="text" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false" placeholder="main"></div>
-        <div><label class="text-xs text-zinc-400 font-medium block mb-2">File path</label><input id="gPath" type="text" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false" placeholder="rankforge-data.json"></div>
-      </div>
-      <div class="mt-4"><label class="text-xs text-zinc-400 font-medium block mb-2">Access token</label><input id="gToken" type="password" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false" placeholder="github_pat_..."></div>
+      <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500 flex items-center gap-2"><i data-lucide="cloud" class="w-4 h-4 text-ice"></i> CLOUD SYNC · FIREBASE</div>
+      <p class="text-xs text-zinc-500 mt-3 leading-relaxed">Paste your Realtime Database URL once. Every device that connects shows the same marks and history, and changes appear on all of them automatically. The data sits openly at that URL &mdash; fine for personal use.</p>
+      <div class="mt-5"><label class="text-xs text-zinc-400 font-medium block mb-2">Database URL</label><input id="fbUrl" type="url" class="fld w-full h-11 px-4 font-mono2 text-sm" autocomplete="off" spellcheck="false" placeholder="https://neetweeklytracker-default-rtdb.firebaseio.com"></div>
       <div class="flex flex-wrap gap-2.5 mt-5">
-        <button id="gSave" class="btn-lime rounded-2xl px-5 py-3 font-display font-bold text-sm flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 pointer-events-none"></i> SAVE &amp; SYNC</button>
-        <button id="gNow" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">SYNC NOW</button>
-        <button id="gCopy" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">COPY SETUP CODE</button>
-        <button id="gOff" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">DISCONNECT</button>
+        <button id="fbSave" class="btn-lime rounded-2xl px-5 py-3 font-display font-bold text-sm flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 pointer-events-none"></i> CONNECT &amp; SYNC</button>
+        <button id="fbNow" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">SYNC NOW</button>
+        <button id="fbCopy" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">COPY LINK FOR OTHER DEVICES</button>
+        <button id="fbOff" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">DISCONNECT</button>
       </div>
       <div id="gMsg" class="text-[11px] font-mono2 text-zinc-500 mt-4">Not connected &mdash; data lives only in this browser.</div>
-      <div class="mt-5 pt-5 border-t border-white/8">
-        <label class="text-xs text-zinc-400 font-medium block mb-2">Setting up another device? Paste the setup code here</label>
-        <div class="flex gap-2"><input id="gCode" type="text" class="fld flex-1 min-w-0 h-11 px-4 font-mono2 text-xs" autocomplete="off" spellcheck="false" placeholder="paste setup code"><button id="gApply" class="btn-ghost rounded-xl px-5 font-display font-bold text-xs">APPLY</button></div>
-      </div>
     </div>
 
     <div data-rv class="card p-6 md:p-8 mt-5">
@@ -1298,50 +1288,50 @@ function startCursor(){
   addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; if(!raf) raf=requestAnimationFrame(loop); },{passive:true});
 }
 
-/* ---------------- GitHub sync ---------------- */
+/* ---------------- Firebase Realtime Database sync ---------------- */
 const SYNC_KEY='rankforge_sync_v1';
-let syncTimer=null, syncBusy=false, syncAgain=false, syncStatus='off';
-const b64e = x => btoa(unescape(encodeURIComponent(x)));
-const b64d = x => decodeURIComponent(escape(atob(String(x).replace(/\s/g,''))));
+let syncTimer=null, syncBusy=false, syncAgain=false, fbES=null;
 function stable(o){ return JSON.stringify(o,(k,v)=> v&&typeof v==='object'&&!Array.isArray(v) ? Object.keys(v).sort().reduce((a,x)=>(a[x]=v[x],a),{}) : v); }
-function syncCfg(){
-  try{ const c=JSON.parse(localStorage.getItem(SYNC_KEY)||'null');
-    return (c&&c.token&&c.owner&&c.repo) ? Object.assign({branch:'main',path:'rankforge-data.json'},c) : null; }catch(e){ return null; }
+// Firebase drops null / empty arrays / empty objects, so compare in that normalised form
+function clean(x){
+  if(x===null||x===undefined) return undefined;
+  if(Array.isArray(x)){ const a=x.map(clean).filter(v=>v!==undefined); return a.length?a:undefined; }
+  if(typeof x==='object'){ const o={}; for(const k of Object.keys(x)){ const v=clean(x[k]); if(v!==undefined) o[k]=v; } return Object.keys(o).length?o:undefined; }
+  return x;
 }
+function normUrl(u){ return String(u||'').trim().replace(/\/rankforge\.json.*$/,'').replace(/\/+$/,''); }
+function syncCfg(){
+  try{ const c=JSON.parse(localStorage.getItem(SYNC_KEY)||'null'); return (c&&c.url&&/^https:\/\//.test(c.url)) ? c : null; }catch(e){ return null; }
+}
+function fbUrl(c){ return c.url+'/rankforge.json'; }
 function setSyncUI(st,msg){
-  syncStatus=st; const c=syncCfg(); const d=new Date();
+  const c=syncCfg(), d=new Date();
   const col={off:'#3a4152',busy:'#ffb020',ok:'#c8ff3d',err:'#ff3d5c'}[st];
   const txt = st==='off' ? 'Not connected — data lives only in this browser.'
     : st==='busy' ? 'Syncing…'
-    : st==='ok' ? `Synced ${pad2(d.getHours())}:${pad2(d.getMinutes())} · ${c?c.owner+'/'+c.repo:''}`
+    : st==='ok' ? `Synced ${pad2(d.getHours())}:${pad2(d.getMinutes())} · live on all connected devices`
     : (msg||'Sync failed');
   $$('.syncdot').forEach(el=>{ el.style.background=col; el.title=txt; });
   const m=$('#gMsg'); if(m){ m.textContent=txt; m.style.color = st==='err'?'#ff3d5c':st==='ok'?'#c8ff3d':''; }
 }
-function ghUrl(c){ return `https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${c.path.split('/').map(encodeURIComponent).join('/')}`; }
-function ghHead(c){ return { 'Authorization':'Bearer '+c.token, 'Accept':'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28' }; }
-function ghErr(code,msg){ const e=new Error(msg); e.code=code; return e; }
-async function ghFetch(url,opt){
-  try{ return await fetch(url,opt); }catch(e){ throw ghErr(0,'Network error — offline? Will retry.'); }
+function fbErr(code,msg){ const e=new Error(msg); e.code=code; return e; }
+async function fbReq(c,opt){
+  let r; try{ r=await fetch(fbUrl(c)+(opt&&opt.method==='PUT'?'':'?t='+Date.now()),Object.assign({cache:'no-store'},opt)); }
+  catch(e){ throw fbErr(0,'Network error — offline? Will retry.'); }
+  if(r.status===401||r.status===403) throw fbErr(r.status,'Database rules block access — set ".read" and ".write" to true in the Rules tab and Publish.');
+  if(r.status===404) throw fbErr(404,'Database URL not found — check the URL.');
+  if(!r.ok) throw fbErr(r.status,'Firebase error '+r.status);
+  return r;
 }
-async function ghGet(c){
-  const r=await ghFetch(ghUrl(c)+'?ref='+encodeURIComponent(c.branch)+'&t='+Date.now(),{headers:ghHead(c),cache:'no-store'});
-  if(r.status===404) return {data:null,sha:null};
-  if(r.status===401||r.status===403) throw ghErr(r.status,'Token rejected or has no Contents access to this repo.');
-  if(!r.ok) throw ghErr(r.status,'GitHub error '+r.status);
-  const j=await r.json(); let data=null;
-  try{ data=JSON.parse(b64d(j.content)); }catch(e){}
-  return {data,sha:j.sha};
+async function fbGet(c){
+  const r=await fbReq(c);
+  try{ return await r.json(); }catch(e){ throw fbErr(0,"That URL doesn't look like a Realtime Database."); }
 }
-async function ghPut(c,obj,sha){
-  const body={ message:'rankforge sync', content:b64e(JSON.stringify(obj)), branch:c.branch };
-  if(sha) body.sha=sha;
-  const r=await ghFetch(ghUrl(c),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghHead(c)),body:JSON.stringify(body)});
-  if(r.status===409||r.status===422) throw ghErr(409,'conflict');
-  if(r.status===404) throw ghErr(404,'Repo or branch not found, or the token cannot access it.');
-  if(r.status===401||r.status===403) throw ghErr(r.status,'Token rejected or lacks "Contents: Read and write".');
-  if(!r.ok) throw ghErr(r.status,'GitHub error '+r.status);
-  return (await r.json()).content.sha;
+async function fbPut(c,obj){ await fbReq(c,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(obj)}); }
+function normR(R){
+  R.week=R.week||{id:curWeekId()}; R.week.tests=R.week.tests||[];
+  R.history=R.history||[]; R.deleted=R.deleted||{}; R.seen=R.seen||{}; R.settings=R.settings||{};
+  return R;
 }
 function mergeStates(L,R){
   const lr=L.resetAt||0, rr=R.resetAt||0;
@@ -1362,63 +1352,47 @@ function mergeStates(L,R){
   return M;
 }
 function refreshAll(){ lastStats=computeStats(S.week.tests); renderDashboard(false); renderHistory(); renderSettingsInputs(); }
-function queueSync(delay){ if(!syncCfg()) return; clearTimeout(syncTimer); syncTimer=setTimeout(()=>syncNow(), delay||1500); }
+function queueSync(delay){ if(!syncCfg()) return; clearTimeout(syncTimer); syncTimer=setTimeout(()=>syncNow(), delay||800); }
 async function syncNow(){
   const c=syncCfg(); if(!c){ setSyncUI('off'); return; }
   if(syncBusy){ syncAgain=true; return; }
   syncBusy=true; setSyncUI('busy');
   try{
-    for(let attempt=0; attempt<3; attempt++){
-      const r=await ghGet(c);
-      const rawRemote = r.data ? stable(r.data) : null;
-      let M=S;
-      if(r.data && r.data.week && r.data.settings){
-        const R=r.data; if(!R.history) R.history=[]; if(!R.deleted) R.deleted={}; if(!R.seen) R.seen={};
-        rolloverState(R); M=mergeStates(S,R);
-      }
-      const before=stable(S); S=M; fixState(); rolloverState(S);
-      const changed = stable(S)!==before;
-      saveLocal();
-      if(changed) refreshAll();
-      if(!r.data || stable(S)!==rawRemote){
-        try{ await ghPut(c,S,r.sha); }catch(e){ if(e.code===409) continue; throw e; }
-      }
-      break;
-    }
+    const R0=await fbGet(c);
+    let M=S;
+    if(R0 && (R0.week||R0.settings||R0.history)){ const R=normR(JSON.parse(JSON.stringify(R0))); rolloverState(R); M=mergeStates(S,R); }
+    const before=stable(S); S=M; fixState(); rolloverState(S);
+    if(stable(S)!==before){ saveLocal(); refreshAll(); }
+    if(!R0 || stable(clean(S))!==stable(clean(R0))) await fbPut(c,S);
     setSyncUI('ok');
   }catch(e){ setSyncUI('err', e.message||'Sync failed'); }
-  finally{ syncBusy=false; if(syncAgain){ syncAgain=false; queueSync(600); } }
+  finally{ syncBusy=false; if(syncAgain){ syncAgain=false; queueSync(500); } }
+}
+function listen(){
+  if(fbES){ try{fbES.close();}catch(e){} fbES=null; }
+  const c=syncCfg(); if(!c||!window.EventSource) return;
+  try{ fbES=new EventSource(fbUrl(c)); const h=()=>queueSync(250); fbES.addEventListener('put',h); fbES.addEventListener('patch',h); }catch(e){}
 }
 async function eraseAll(){
   S=defaultState(); S.resetAt=Date.now(); S.settingsAt=Date.now(); saveLocal();
   const c=syncCfg();
-  if(c){ try{ const r=await ghGet(c); await ghPut(c,S,r.sha); }catch(e){} }
+  if(c){ try{ await fbPut(c,S); }catch(e){} }
   location.reload();
 }
-function renderSyncInputs(){
-  const c=syncCfg();
-  $('#gOwner').value=c?c.owner:''; $('#gRepo').value=c?c.repo:''; $('#gBranch').value=c?c.branch:''; $('#gPath').value=c?c.path:'';
-  $('#gToken').value=''; $('#gToken').placeholder = c ? '•••••• saved on this device (leave blank to keep)' : 'github_pat_...';
-}
+function renderSyncInputs(){ const c=syncCfg(); const el=$('#fbUrl'); if(el) el.value=c?c.url:''; }
 function bindSync(){
-  const store=c=>{ localStorage.setItem(SYNC_KEY,JSON.stringify(c)); renderSyncInputs(); syncNow(); };
-  $('#gSave').onclick=()=>{
-    const old=syncCfg()||{};
-    const c={ owner:$('#gOwner').value.trim(), repo:$('#gRepo').value.trim(), branch:$('#gBranch').value.trim()||'main', path:$('#gPath').value.trim()||'rankforge-data.json', token:$('#gToken').value.trim()||old.token||'' };
-    if(!c.owner||!c.repo||!c.token){ toast('Fill username, repo and token first.','red'); return; }
-    store(c);
+  $('#fbSave').onclick=()=>{
+    const u=normUrl($('#fbUrl').value);
+    if(!/^https:\/\/[^\s]+\.[^\s]+$/.test(u)){ toast('Paste the full https:// database URL.','red'); return; }
+    localStorage.setItem(SYNC_KEY,JSON.stringify({url:u})); renderSyncInputs(); listen(); syncNow();
   };
-  $('#gNow').onclick=()=>{ if(!syncCfg()){ toast('Connect GitHub first.','amber'); return; } syncNow(); };
-  $('#gOff').onclick=()=>{ localStorage.removeItem(SYNC_KEY); renderSyncInputs(); setSyncUI('off'); toast('Sync disconnected on this device.','amber'); };
-  $('#gCopy').onclick=async()=>{
-    const c=syncCfg(); if(!c){ toast('Connect GitHub first.','amber'); return; }
-    const code=b64e(JSON.stringify(c));
-    try{ await navigator.clipboard.writeText(code); toast('Setup code copied — paste it on your other device.','lime'); }
-    catch(e){ prompt('Copy this setup code:',code); }
-  };
-  $('#gApply').onclick=()=>{
-    try{ const c=JSON.parse(b64d($('#gCode').value.trim())); if(!c.owner||!c.repo||!c.token) throw 0; $('#gCode').value=''; store(c); toast('Connected — pulling your data…','lime'); }
-    catch(e){ toast('That setup code is invalid.','red'); }
+  $('#fbNow').onclick=()=>{ if(!syncCfg()){ toast('Paste your database URL first.','amber'); return; } syncNow(); };
+  $('#fbOff').onclick=()=>{ localStorage.removeItem(SYNC_KEY); if(fbES){ fbES.close(); fbES=null; } renderSyncInputs(); setSyncUI('off'); toast('Sync disconnected on this device.','amber'); };
+  $('#fbCopy').onclick=async()=>{
+    const c=syncCfg(); if(!c){ toast('Connect first.','amber'); return; }
+    const link=location.href.split('#')[0].split('?')[0]+'#db='+encodeURIComponent(c.url);
+    try{ await navigator.clipboard.writeText(link); toast('Link copied — open it once on your other device.','lime'); }
+    catch(e){ prompt('Open this link on your other device:',link); }
   };
   $('#bkExport').onclick=()=>{
     const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));
@@ -1428,14 +1402,17 @@ function bindSync(){
     const f=e.target.files[0]; if(!f) return; const rd=new FileReader();
     rd.onload=()=>{ try{
       const R=JSON.parse(rd.result); if(!R.week||!R.settings) throw 0;
-      R.history=R.history||[]; R.deleted=R.deleted||{}; R.seen=R.seen||{}; rolloverState(R);
+      normR(R); rolloverState(R);
       S=mergeStates(S,R); fixState(); save(); refreshAll(); toast('Backup merged in.','lime');
     }catch(x){ toast('Not a valid RANKFORGE backup file.','red'); } };
     rd.readAsText(f); e.target.value='';
   };
 }
 function startSync(){
-  if(syncCfg()) syncNow(); else setSyncUI('off');
+  const m=location.hash.match(/#db=(.+)$/);
+  if(m){ try{ const u=normUrl(decodeURIComponent(m[1])); if(/^https:\/\//.test(u)){ localStorage.setItem(SYNC_KEY,JSON.stringify({url:u})); history.replaceState(null,'',location.pathname+location.search); setTimeout(()=>toast('Sync connected — loading your data…','lime'),800); } }catch(e){} }
+  renderSyncInputs();
+  if(syncCfg()){ listen(); syncNow(); } else setSyncUI('off');
   setInterval(()=>{ if(!document.hidden && syncCfg()) syncNow(); },60000);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden && syncCfg()) syncNow(); });
   addEventListener('online',()=>{ if(syncCfg()) syncNow(); });
