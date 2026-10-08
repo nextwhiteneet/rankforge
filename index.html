@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07080b">
+<title>RANKFORGE — Weekly NEET Grind OS</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c8ff3d'%3E%3Cpath d='M13 2 3 14h7l-1 8 11-14h-7z'/%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style type="text/tailwindcss">
+@theme {
+  --color-ink:#07080b;
+  --color-panel:#0d1017;
+  --color-panel2:#11151e;
+  --color-lime-neon:#c8ff3d;
+  --color-viol:#8b7bff;
+  --color-ice:#7de2ff;
+  --color-amberx:#ffb020;
+  --color-redx:#ff3d5c;
+  --color-gold:#ffd75e;
+  --font-display:"Syne",sans-serif;
+  --font-body:"Space Grotesk",sans-serif;
+  --font-mono2:"JetBrains Mono",monospace;
+}
+</style>
+
+<style>
+  html{ -webkit-font-smoothing:antialiased; }
+  body{ background:#07080b; }
+  ::selection{ background:#c8ff3d; color:#07080b; }
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-track{ background:#07080b; }
+  ::-webkit-scrollbar-thumb{ background:#1b2130; border-radius:8px; border:2px solid #07080b; }
+  ::-webkit-scrollbar-thumb:hover{ background:#c8ff3d; }
+
+  .num{ font-variant-numeric: tabular-nums; }
+
+  /* ---- film grain ---- */
+  .noise{ position:fixed; inset:0; z-index:200; pointer-events:none; opacity:.035; transform:translateZ(0);
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+  /* ---- ambient orbs (transform only) ---- */
+  .orb{ position:fixed; z-index:0; border-radius:9999px; pointer-events:none; will-change:transform; }
+  .orb-a{ width:520px;height:520px; background:radial-gradient(circle,rgba(200,255,61,.13),transparent 65%); top:-160px; right:-120px; animation:driftA 32s ease-in-out infinite alternate; }
+  .orb-b{ width:560px;height:560px; background:radial-gradient(circle,rgba(139,123,255,.11),transparent 65%); bottom:-220px; left:-160px; animation:driftB 38s ease-in-out infinite alternate; }
+  @keyframes driftA{ from{ transform:translate3d(0,0,0) scale(1);} to{ transform:translate3d(-90px,70px,0) scale(1.15);} }
+  @keyframes driftB{ from{ transform:translate3d(0,0,0) scale(1.1);} to{ transform:translate3d(110px,-60px,0) scale(.95);} }
+  .gridlines{ position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,black 20%,transparent 78%);
+            mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,black 20%,transparent 78%);
+  }
+
+  /* ---- custom cursor ---- */
+  #cGlow,#cDot{ position:fixed; top:0; left:0; z-index:180; pointer-events:none; will-change:transform; }
+  #cGlow{ width:340px;height:340px; margin:-170px 0 0 -170px; background:radial-gradient(circle,rgba(200,255,61,.07),transparent 60%); }
+  #cDot{ width:8px;height:8px; margin:-4px 0 0 -4px; border-radius:50%; background:#c8ff3d; box-shadow:0 0 14px rgba(200,255,61,.9); }
+  @media (pointer:coarse){ #cGlow,#cDot{ display:none; } }
+
+  /* ---- marquee ---- */
+  .marquee-track{ display:flex; width:max-content; animation:marq 30s linear infinite; will-change:transform; }
+  @keyframes marq{ to{ transform:translate3d(-50%,0,0); } }
+
+  /* ---- cards ---- */
+  .card{ background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.015) 40%,rgba(255,255,255,0) 70%),#0d1017;
+    border:1px solid rgba(255,255,255,.07); border-radius:20px; position:relative; }
+  .card-h{ transition:transform .4s cubic-bezier(.2,.8,.2,1), border-color .3s; }
+  .card-h:hover{ transform:translateY(-4px); border-color:rgba(200,255,61,.28); }
+  .tilt{ }
+
+  .pill-lime{ background:linear-gradient(120deg,#d9ff70,#b8f526); color:#07080b; box-shadow:0 0 24px rgba(200,255,61,.35), inset 0 0 0 1px rgba(255,255,255,.4); }
+  .pill-dark{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); }
+
+  /* ---- shimmer text ---- */
+  .shimmer-lime{ background:linear-gradient(110deg,#c8ff3d 20%,#ffffff 40%,#c8ff3d 60%); background-size:220% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shim 2.8s linear infinite; }
+  .shimmer-gold{ background:linear-gradient(110deg,#ffd75e 20%,#fff7dd 40%,#ffd75e 60%); background-size:220% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shim 2.4s linear infinite; }
+  @keyframes shim{ to{ background-position:-220% 0; } }
+
+  /* ---- buttons ---- */
+  .btn-lime{ position:relative; overflow:hidden; background:#c8ff3d; color:#07080b; transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s; box-shadow:0 0 0 rgba(200,255,61,0); }
+  .btn-lime:hover{ transform:translateY(-2px); box-shadow:0 10px 34px -8px rgba(200,255,61,.55); }
+  .btn-lime:active{ transform:translateY(0) scale(.97); }
+  .btn-lime::after{ content:""; position:absolute; top:0; left:-80%; width:50%; height:100%; background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent); transform:skewX(-20deg); transition:left .7s ease; }
+  .btn-lime:hover::after{ left:130%; }
+  .btn-ghost{ background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.1); transition:all .3s; }
+  .btn-ghost:hover{ border-color:rgba(200,255,61,.45); color:#c8ff3d; transform:translateY(-2px); }
+
+  /* ---- nav ---- */
+  .navbtn{ transition:color .3s, background-color .3s, transform .3s; color:#8a93a6; }
+  .navbtn:hover{ color:#e6e9f0; transform:translateX(2px); }
+  .navbtn.on{ color:#c8ff3d; background:rgba(200,255,61,.09); box-shadow:inset 0 0 0 1px rgba(200,255,61,.25); }
+  .mnavbtn{ transition:color .3s; color:#8a93a6; }
+  .mnavbtn.on{ color:#c8ff3d; }
+
+  /* ---- inputs ---- */
+  .fld{ background:#0a0d13; border:1px solid rgba(255,255,255,.1); border-radius:12px; color:#e6e9f0; outline:none; transition:border-color .3s, box-shadow .3s; }
+  .fld:focus{ border-color:rgba(200,255,61,.6); box-shadow:0 0 0 3px rgba(200,255,61,.12); }
+  input[type=number]{ -moz-appearance:textfield; appearance:textfield; }
+  input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button{ -webkit-appearance:none; margin:0; }
+
+  input[type=range]{ -webkit-appearance:none; appearance:none; width:100%; height:6px; border-radius:99px; outline:none; cursor:pointer;
+    background:linear-gradient(to right,var(--rc,#c8ff3d) var(--fill,0%), #171c28 var(--fill,0%)); }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:20px;height:20px;border-radius:50%; background:var(--rc,#c8ff3d); border:4px solid #0a0c10; box-shadow:0 0 0 1.5px rgba(255,255,255,.25), 0 4px 14px rgba(0,0,0,.6); transition:transform .2s; }
+  input[type=range]::-webkit-slider-thumb:hover{ transform:scale(1.2); }
+  input[type=range]::-moz-range-thumb{ width:12px;height:12px;border-radius:50%; background:var(--rc,#c8ff3d); border:4px solid #0a0c10; box-shadow:0 0 0 1.5px rgba(255,255,255,.25); }
+
+  .chip-day{ transition:background-color .2s, color .2s, border-color .2s; }
+  .chip-day.on{ background:#c8ff3d; color:#07080b; border-color:#c8ff3d; font-weight:700; }
+
+  /* ---- expandable history rows ---- */
+  .expwrap{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .55s cubic-bezier(.2,.8,.2,1); }
+  .expwrap.open{ grid-template-rows:1fr; }
+  .expwrap>div{ overflow:hidden; }
+  .hist-row .chev{ transition:transform .45s cubic-bezier(.2,.8,.2,1); }
+  .hist-row.open .chev{ transform:rotate(180deg); }
+
+  /* ---- verdict fx ---- */
+  @keyframes shakeX{ 0%,100%{transform:translateX(0) rotate(-1deg);} 20%{transform:translateX(-10px) rotate(-1.5deg);} 40%{transform:translateX(9px) rotate(-.5deg);} 60%{transform:translateX(-7px) rotate(-1.5deg);} 80%{transform:translateX(5px) rotate(-1deg);} }
+  .shake{ animation:shakeX .55s cubic-bezier(.36,.07,.19,.97) 2; }
+  @keyframes rays{ to{ transform:rotate(360deg); } }
+  .rays{ background:conic-gradient(from 0deg, rgba(255,215,94,.16) 0deg, transparent 22deg, rgba(255,215,94,.16) 45deg, transparent 70deg, rgba(255,215,94,.16) 92deg, transparent 120deg, rgba(255,215,94,.16) 145deg, transparent 170deg, rgba(255,215,94,.16) 195deg, transparent 220deg, rgba(255,215,94,.16) 245deg, transparent 272deg, rgba(255,215,94,.16) 295deg, transparent 322deg, rgba(255,215,94,.16) 340deg, transparent 360deg); animation:rays 24s linear infinite; -webkit-mask-image:radial-gradient(circle,black 20%,transparent 72%); mask-image:radial-gradient(circle,black 20%,transparent 72%); }
+  .glitch{ position:relative; display:inline-block; }
+  .glitch::before,.glitch::after{ content:attr(data-text); position:absolute; inset:0; overflow:hidden; }
+  .glitch::before{ color:#ff3d5c; transform:translate(-3px,-2px); clip-path:inset(12% 0 58% 0); animation:gl1 2.2s steps(2) infinite; opacity:.85; }
+  .glitch::after{ color:#7de2ff; transform:translate(3px,2px); clip-path:inset(62% 0 8% 0); animation:gl2 2.6s steps(2) infinite; opacity:.85; }
+  @keyframes gl1{ 0%,84%{clip-path:inset(12% 0 58% 0);} 85%{clip-path:inset(45% 0 30% 0);} 90%{clip-path:inset(5% 0 80% 0);} 95%{clip-path:inset(70% 0 5% 0);} 100%{clip-path:inset(12% 0 58% 0);} }
+  @keyframes gl2{ 0%,80%{clip-path:inset(62% 0 8% 0);} 82%{clip-path:inset(20% 0 60% 0);} 88%{clip-path:inset(75% 0 2% 0);} 94%{clip-path:inset(35% 0 45% 0);} 100%{clip-path:inset(62% 0 8% 0);} }
+  @keyframes stampIn{ 0%{ transform:scale(3.2) rotate(-24deg); opacity:0; } 55%{ transform:scale(.92) rotate(-11deg); opacity:1; } 75%{ transform:scale(1.08) rotate(-12deg); } 100%{ transform:scale(1) rotate(-12deg); opacity:1; } }
+  .stamp{ animation:stampIn .7s cubic-bezier(.2,.9,.3,1.2) both .35s; }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
+  .floaty{ animation:floaty 3.4s ease-in-out infinite; }
+  @keyframes pulseGlow{ 0%,100%{ box-shadow:0 0 28px rgba(255,215,94,.35);} 50%{ box-shadow:0 0 70px rgba(255,215,94,.7);} }
+  .pulse-gold{ position:relative; box-shadow:0 0 28px rgba(255,215,94,.35); }
+  .pulse-gold::after{ content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; box-shadow:0 0 70px rgba(255,215,94,.7); opacity:0; animation:pulseOp 2.2s ease-in-out infinite; }
+  @keyframes pulseOp{ 0%,100%{opacity:0;} 50%{opacity:1;} }
+  @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
+  .blink{ animation:blink 1.2s steps(2) infinite; }
+
+  .trow{ transition:background .25s, border-color .25s; }
+  .trow:hover{ background:rgba(255,255,255,.045); }
+
+  .bar-track{ background:#171c28; }
+  .bar-fill{ width:100%; transform-origin:left center; will-change:transform; transition:transform 1s cubic-bezier(.2,.8,.2,1), background-color .4s; }
+
+  #fx{ position:fixed; inset:0; z-index:190; pointer-events:none; display:none; }
+
+  .view{ position:relative; z-index:10; }
+
+  .fld option{ background:#0a0d13; }
+  .flash{ animation:flashA 1.5s ease-out both; }
+  @keyframes flashA{ from{opacity:1;} to{opacity:0;} }
+  @media (pointer:coarse){ .noise{ display:none; } .orb-a,.orb-b,.shimmer-lime{ animation:none; } }
+  @media (prefers-reduced-motion:reduce){
+    .marquee-track,.orb-a,.orb-b,.floaty,.rays,.shimmer-lime,.shimmer-gold{ animation:none !important; }
+  }
+</style>
+</head>
+
+<body class="bg-ink text-zinc-200 font-body overflow-x-hidden min-h-screen">
+<noscript><div style="padding:40px;font-family:monospace;color:#c8ff3d">RANKFORGE requires JavaScript.</div></noscript>
+
+<div class="noise"></div>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+<div class="gridlines"></div>
+<div id="cGlow"></div><div id="cDot"></div>
+<canvas id="fx"></canvas>
+
+<!-- ============ DESKTOP SIDEBAR ============ -->
+<aside class="hidden lg:flex fixed left-0 top-0 bottom-0 w-20 z-40 flex-col items-center py-6 border-r border-white/8 bg-[#090b10]">
+  <div class="w-11 h-11 rounded-2xl pill-lime grid place-items-center rotate-3 hover:rotate-12 transition-transform duration-500 cursor-pointer" title="RANKFORGE">
+    <i data-lucide="zap" class="w-5 h-5"></i>
+  </div>
+  <div class="flex flex-col gap-3 mt-12 flex-1">
+    <button class="navbtn on w-12 h-12 rounded-2xl grid place-items-center" data-view="dash" title="This Week"><i data-lucide="layout-dashboard" class="w-5 h-5 pointer-events-none"></i></button>
+    <button class="navbtn w-12 h-12 rounded-2xl grid place-items-center" data-view="history" title="History"><i data-lucide="history" class="w-5 h-5 pointer-events-none"></i></button>
+    <button class="navbtn w-12 h-12 rounded-2xl grid place-items-center" data-view="settings" title="Settings"><i data-lucide="settings" class="w-5 h-5 pointer-events-none"></i></button>
+  </div>
+  <div class="flex flex-col items-center gap-3">
+    <span class="syncdot w-2 h-2 rounded-full" style="background:#3a4152" title="Sync off"></span>
+    <div class="text-[10px] font-mono2 text-zinc-500 num" id="asideClock">--:--</div>
+    <button id="sideAdd" class="w-12 h-12 rounded-2xl btn-lime grid place-items-center font-bold"><i data-lucide="plus" class="w-5 h-5 pointer-events-none"></i></button>
+  </div>
+</aside>
+
+<!-- ============ MOBILE TOP BAR ============ -->
+<header class="lg:hidden fixed top-0 inset-x-0 z-40 flex items-center justify-between px-5 py-4 bg-[#090b10] border-b border-white/8">
+  <div class="flex items-center gap-2.5">
+    <div class="w-8 h-8 rounded-xl pill-lime grid place-items-center rotate-3"><i data-lucide="zap" class="w-4 h-4"></i></div>
+    <span class="font-display font-bold tracking-tight text-sm">RANKFORGE</span>
+  </div>
+  <div class="flex items-center gap-2.5"><span class="syncdot w-2 h-2 rounded-full" style="background:#3a4152" title="Sync off"></span><div class="text-[11px] font-mono2 text-zinc-500 num" id="clockM">--:--</div></div>
+</header>
+
+<!-- ============ MOBILE BOTTOM NAV ============ -->
+<nav class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-[#090b10] border-t border-white/8">
+  <div class="grid grid-cols-4 items-center h-18 py-3 px-2">
+    <button class="mnavbtn on flex flex-col items-center gap-1" data-view="dash"><i data-lucide="layout-dashboard" class="w-5 h-5 pointer-events-none"></i><span class="text-[9px] font-mono2 pointer-events-none">WEEK</span></button>
+    <button class="mnavbtn flex flex-col items-center gap-1" data-view="history"><i data-lucide="history" class="w-5 h-5 pointer-events-none"></i><span class="text-[9px] font-mono2 pointer-events-none">HISTORY</span></button>
+    <button class="mnavbtn flex flex-col items-center gap-1" data-view="settings"><i data-lucide="settings" class="w-5 h-5 pointer-events-none"></i><span class="text-[9px] font-mono2 pointer-events-none">RULES</span></button>
+    <button id="mAdd" class="flex flex-col items-center gap-1 text-lime-neon"><i data-lucide="plus-circle" class="w-6 h-6 pointer-events-none"></i><span class="text-[9px] font-mono2 text-lime-neon pointer-events-none">LOG</span></button>
+  </div>
+</nav>
+
+<main class="lg:ml-20 pt-20 lg:pt-0 pb-28 lg:pb-10">
+
+<!-- ================================================= DASHBOARD -->
+<section id="view-dash" class="view">
+  <div class="max-w-[1440px] mx-auto px-5 md:px-8 pt-8 lg:pt-10">
+
+    <!-- HERO -->
+    <div data-rv class="flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <div class="flex items-center gap-3 mb-3">
+          <span id="weekPill" class="text-[10px] font-mono2 font-semibold tracking-[.2em] px-3 py-1.5 rounded-full pill-dark text-amberx">— AT RISK —</span>
+          <span class="text-[10px] font-mono2 text-zinc-500 tracking-[.2em] hidden sm:flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-lime-neon blink"></span><span id="clockD">--:--:--</span> LIVE</span>
+        </div>
+        <h1 class="font-display font-extrabold leading-[.95] tracking-tight text-[clamp(42px,6vw,86px)]">
+          <span id="weekTitle" class="text-white">WEEK 00</span><br>
+          <span class="text-zinc-600 text-[.42em] font-bold tracking-normal align-middle" id="weekRange">– –</span>
+        </h1>
+      </div>
+      <div class="flex flex-col items-start sm:items-end gap-3">
+        <div class="text-[10px] font-mono2 text-zinc-500 tracking-[.18em]" id="weekDaysLeft">— DAYS TO PAYDAY</div>
+        <button id="btnAdd" class="btn-lime rounded-2xl px-6 py-3.5 font-display font-bold text-sm flex items-center gap-2">
+          <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i> LOG TODAY'S TEST
+        </button>
+      </div>
+    </div>
+
+    <!-- MARQUEE -->
+    <div data-rv class="mt-8 border-y border-white/8 py-2.5 overflow-hidden select-none" aria-hidden="true">
+      <div class="marquee-track gap-0">
+        <span class="font-mono2 text-[11px] tracking-[.28em] text-zinc-600 whitespace-nowrap pr-2">MARKS DON'T LIE · DISCIPLINE OVER MOTIVATION · 720 IS THE CEILING · EVERY SUNDAY IS PAYDAY · REPETITION BUILDS RANK · THE GRIND IS THE REWARD · </span>
+        <span class="font-mono2 text-[11px] tracking-[.28em] text-zinc-600 whitespace-nowrap pr-2">MARKS DON'T LIE · DISCIPLINE OVER MOTIVATION · 720 IS THE CEILING · EVERY SUNDAY IS PAYDAY · REPETITION BUILDS RANK · THE GRIND IS THE REWARD · </span>
+      </div>
+    </div>
+
+    <!-- STATS GRID -->
+    <div data-rv class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3.5 mt-8">
+      <div class="card card-h tilt p-5">
+        <div class="flex items-center justify-between"><span class="text-[10px] font-mono2 tracking-[.18em] text-zinc-500">TESTS LOGGED</span><i data-lucide="layers" class="w-4 h-4 text-lime-neon"></i></div>
+        <div class="num font-display font-extrabold text-4xl mt-3 text-white" id="stTests">0</div>
+        <div class="text-[10px] font-mono2 text-zinc-600 mt-1.5" id="stTestsSub">target: 6</div>
+      </div>
+      <div class="card card-h tilt p-5">
+        <div class="flex items-center justify-between"><span class="text-[10px] font-mono2 tracking-[.18em] text-zinc-500">TOTAL MARKS</span><i data-lucide="activity" class="w-4 h-4 text-viol"></i></div>
+        <div class="num font-display font-extrabold text-4xl mt-3 text-white" id="stTotal">0</div>
+        <div class="text-[10px] font-mono2 text-zinc-600 mt-1.5">sum across tests</div>
+      </div>
+      <div class="card card-h tilt p-5">
+        <div class="flex items-center justify-between"><span class="text-[10px] font-mono2 tracking-[.18em] text-zinc-500">AVG SCORE</span><i data-lucide="gauge" class="w-4 h-4 text-ice"></i></div>
+        <div class="num font-display font-extrabold text-4xl mt-3 text-white" id="stAvg">0</div>
+        <div class="text-[10px] font-mono2 text-zinc-600 mt-1.5">out of 720 · scaled per paper</div>
+      </div>
+      <div class="card card-h tilt p-5">
+        <div class="flex items-center justify-between"><span class="text-[10px] font-mono2 tracking-[.18em] text-zinc-500">AVG ACCURACY</span><i data-lucide="crosshair" class="w-4 h-4 text-amberx"></i></div>
+        <div class="num font-display font-extrabold text-4xl mt-3 text-white" id="stAcc">0%</div>
+        <div class="text-[10px] font-mono2 text-zinc-600 mt-1.5" id="stAccSub">no attempts yet</div>
+      </div>
+      <div class="card card-h tilt p-5">
+        <div class="flex items-center justify-between"><span class="text-[10px] font-mono2 tracking-[.18em] text-zinc-500">BEST SCORE</span><i data-lucide="medal" class="w-4 h-4 text-gold"></i></div>
+        <div class="num font-display font-extrabold text-4xl mt-3 text-white" id="stBest">—</div>
+        <div class="text-[10px] font-mono2 text-zinc-600 mt-1.5" id="stBestSub">no test yet</div>
+      </div>
+      <div class="card card-h tilt p-5">
+        <div class="flex items-center justify-between"><span class="text-[10px] font-mono2 tracking-[.18em] text-zinc-500">ACTIVE DAYS</span><i data-lucide="flame" class="w-4 h-4 text-redx"></i></div>
+        <div class="num font-display font-extrabold text-4xl mt-3 text-white" id="stDays">0<span class="text-zinc-600 text-2xl">/7</span></div>
+        <div class="text-[10px] font-mono2 text-zinc-600 mt-1.5" id="stStreak">streak: 0 days</div>
+      </div>
+    </div>
+
+    <!-- MAIN SPLIT -->
+    <div class="grid lg:grid-cols-[1fr_390px] gap-5 mt-6 items-start">
+
+      <!-- LEFT -->
+      <div class="flex flex-col gap-5 min-w-0">
+        <!-- CHART -->
+        <div data-rv class="card p-5 md:p-6" id="chartCard">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <div>
+              <div class="font-display font-bold text-lg text-white">DAILY SCORE MAP</div>
+              <div class="text-[10px] font-mono2 text-zinc-500 tracking-[.15em] mt-0.5">BEST SCORE PER DAY (SCALED TO 720) · DASHED LINE = TARGET</div>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] font-mono2 text-zinc-500">
+              <span class="w-2.5 h-2.5 rounded-sm bg-lime-neon inline-block"></span> SCORE
+              <span class="inline-block w-5 border-t border-dashed border-lime-neon/70 ml-2"></span> TARGET <span class="text-lime-neon num" id="legendTarget"></span>
+            </div>
+          </div>
+          <div class="relative mt-4 h-56 md:h-72">
+            <canvas id="weekChart" class="w-full h-full block cursor-crosshair"></canvas>
+            <div id="ctip" class="absolute hidden pointer-events-none z-10 bg-[#0a0d13]/95 border border-lime-neon/30 rounded-xl px-3 py-2 font-mono2 text-[10px] text-zinc-300 shadow-2xl whitespace-nowrap"></div>
+          </div>
+        </div>
+
+        <!-- DAYS GRID -->
+        <div data-rv>
+          <div class="flex items-center justify-between mb-3 px-1">
+            <div class="font-display font-bold text-lg text-white">THE SEVEN BATTLEGROUNDS</div>
+            <div class="text-[10px] font-mono2 text-zinc-500 tracking-[.15em]">LOG · AUDIT · DELETE</div>
+          </div>
+          <div id="daysGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-7 gap-3"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="flex flex-col gap-5">
+        <!-- STAKES -->
+        <div data-rv class="card p-6 overflow-hidden" id="stakesCard">
+          <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500 flex items-center justify-between">THE STAKES <i data-lucide="target" class="w-4 h-4 text-lime-neon"></i></div>
+          <div id="stakesStatus" class="font-display font-extrabold tracking-tight leading-none mt-4 text-4xl md:text-[42px] text-amberx">AT RISK</div>
+          <div id="stakesSub" class="text-xs text-zinc-400 mt-3 leading-relaxed">Log tests to start the engine.</div>
+
+          <!-- week progress segments -->
+          <div class="flex gap-1.5 mt-6" id="daySegs"></div>
+
+          <!-- requirement bars -->
+          <div id="reqBars" class="mt-6 flex flex-col gap-4"></div>
+
+          <!-- grind orders -->
+          <div id="grindList" class="mt-5 flex flex-col gap-2"></div>
+
+          <!-- verdict CTA (sunday) -->
+          <div id="verdictBtnWrap" class="mt-6 hidden">
+            <button id="btnVerdict" class="w-full rounded-2xl py-4 font-display font-bold text-sm tracking-wide pill-lime pulse-gold flex items-center justify-center gap-2">
+              <i data-lucide="trophy" class="w-4 h-4 pointer-events-none"></i> REVEAL THE WEEKEND VERDICT
+            </button>
+          </div>
+        </div>
+
+        <!-- SUBJECT SPLITS -->
+        <div data-rv class="card p-6">
+          <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500 flex items-center justify-between">SUBJECT SPLITS <i data-lucide="dna" class="w-4 h-4 text-viol"></i></div>
+          <div id="subjBars" class="mt-5 flex flex-col gap-4"></div>
+        </div>
+
+        <!-- TIP -->
+        <div data-rv class="card p-6 border-lime-neon/15">
+          <div class="flex gap-3.5 items-start">
+            <div class="w-10 h-10 rounded-xl bg-lime-neon/10 border border-lime-neon/25 grid place-items-center shrink-0"><i data-lucide="brain" class="w-5 h-5 text-lime-neon"></i></div>
+            <div>
+              <div class="font-display font-bold text-sm text-white">RANKFORGE DOCTRINE</div>
+              <div class="text-xs text-zinc-400 leading-relaxed mt-1.5">The week resets every Monday at 00:00. Past weeks are sealed into History with their verdict. Accuracy weighs more than attempts — blind guessing is a silent rank killer.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================= HISTORY -->
+<section id="view-history" class="view hidden">
+  <div class="max-w-[1100px] mx-auto px-5 md:px-8 pt-8 lg:pt-10">
+    <div data-rv>
+      <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500">SEALED ARCHIVES</div>
+      <h2 class="font-display font-extrabold text-[clamp(36px,5vw,64px)] leading-none tracking-tight text-white mt-2">WEEK <span class="text-lime-neon">HISTORY</span></h2>
+      <p class="text-sm text-zinc-500 mt-3 max-w-lg">Every completed week is frozen here with its final analytics and its verdict — rewarded or denied. No edits. No excuses.</p>
+    </div>
+    <div id="histList" data-rv class="mt-8 flex flex-col gap-3.5"></div>
+  </div>
+</section>
+
+<!-- ================================================= SETTINGS -->
+<section id="view-settings" class="view hidden">
+  <div class="max-w-[820px] mx-auto px-5 md:px-8 pt-8 lg:pt-10">
+    <div data-rv>
+      <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500">MISSION RULES</div>
+      <h2 class="font-display font-extrabold text-[clamp(36px,5vw,64px)] leading-none tracking-tight text-white mt-2">SET THE <span class="text-lime-neon">REQUIREMENTS</span></h2>
+      <p class="text-sm text-zinc-500 mt-3 max-w-lg">Define the minimum contract for the week. Meet every clause by Sunday and the reward is yours. Miss even one — the denial will be celebrated loudly.</p>
+    </div>
+
+    <div data-rv class="card p-6 md:p-8 mt-8">
+      <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500 flex items-center gap-2"><i data-lucide="target" class="w-4 h-4 text-lime-neon"></i> WEEKLY CONTRACT</div>
+      <div class="grid md:grid-cols-3 gap-5 mt-6">
+        <div>
+          <label class="text-xs text-zinc-400 font-medium block mb-2">Minimum tests</label>
+          <div class="flex items-center gap-2">
+            <button class="stepbtn w-10 h-11 rounded-xl btn-ghost grid place-items-center" data-t="sTests" data-d="-1"><i data-lucide="minus" class="w-4 h-4 pointer-events-none"></i></button>
+            <input id="sTests" type="number" min="0" max="21" class="fld num w-full h-11 text-center font-mono2 font-bold text-lg">
+            <button class="stepbtn w-10 h-11 rounded-xl btn-ghost grid place-items-center" data-t="sTests" data-d="1"><i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i></button>
+          </div>
+          <div class="text-[10px] font-mono2 text-zinc-600 mt-2">0 – 21 tests per week</div>
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 font-medium block mb-2">Min average score</label>
+          <div class="flex items-center gap-2">
+            <button class="stepbtn w-10 h-11 rounded-xl btn-ghost grid place-items-center" data-t="sAvg" data-d="-10"><i data-lucide="minus" class="w-4 h-4 pointer-events-none"></i></button>
+            <input id="sAvg" type="number" min="0" max="720" class="fld num w-full h-11 text-center font-mono2 font-bold text-lg">
+            <button class="stepbtn w-10 h-11 rounded-xl btn-ghost grid place-items-center" data-t="sAvg" data-d="10"><i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i></button>
+          </div>
+          <div class="text-[10px] font-mono2 text-zinc-600 mt-2">0 – 720 marks average</div>
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 font-medium block mb-2">Min avg accuracy %</label>
+          <div class="flex items-center gap-2">
+            <button class="stepbtn w-10 h-11 rounded-xl btn-ghost grid place-items-center" data-t="sAcc" data-d="-1"><i data-lucide="minus" class="w-4 h-4 pointer-events-none"></i></button>
+            <input id="sAcc" type="number" min="0" max="100" class="fld num w-full h-11 text-center font-mono2 font-bold text-lg">
+            <button class="stepbtn w-10 h-11 rounded-xl btn-ghost grid place-items-center" data-t="sAcc" data-d="1"><i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i></button>
+          </div>
+          <div class="text-[10px] font-mono2 text-zinc-600 mt-2">0 – 100 percent</div>
+        </div>
+      </div>
+      <div class="mt-6">
+        <label class="text-xs text-zinc-400 font-medium block mb-2">Your reward on success</label>
+        <input id="sReward" type="text" maxlength="48" class="fld w-full h-11 px-4 font-medium" placeholder="e.g. Biryani night + one movie">
+        <div class="text-[10px] font-mono2 text-zinc-600 mt-2">Named rewards hit different. Make it worth the pain.</div>
+      </div>
+      <div class="mt-6 grid md:grid-cols-2 gap-5">
+        <div>
+          <label class="text-xs text-zinc-400 font-medium block mb-2">Paper sizes you attempt (total marks)</label>
+          <input id="sSizes" type="text" class="fld w-full h-11 px-4 font-mono2 font-bold" placeholder="720, 360" autocomplete="off">
+          <div class="text-[10px] font-mono2 text-zinc-600 mt-2">Comma separated · multiples of 4 · max 720. Averages &amp; chart are scaled to /720.</div>
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 font-medium block mb-2">Default paper size</label>
+          <select id="sDefault" class="fld w-full h-11 px-4 font-mono2 font-bold"></select>
+          <div class="text-[10px] font-mono2 text-zinc-600 mt-2">Pre-selected when you log a test.</div>
+        </div>
+      </div>
+      <label class="mt-5 flex items-center gap-3 text-xs text-zinc-400 cursor-pointer select-none"><input id="sSound" type="checkbox" class="w-4 h-4" style="accent-color:#c8ff3d"> Play fanfare sound on the weekend celebration</label>
+      <button id="saveSettings" class="btn-lime rounded-2xl px-6 py-3.5 font-display font-bold text-sm mt-7 flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 pointer-events-none"></i> LOCK THE CONTRACT</button>
+    </div>
+
+    <div data-rv class="card p-6 md:p-8 mt-5">
+      <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500 flex items-center gap-2"><i data-lucide="cloud" class="w-4 h-4 text-ice"></i> CLOUD SYNC · GITHUB</div>
+      <p class="text-xs text-zinc-500 mt-3 leading-relaxed">Saves every mark and history into a JSON file in a GitHub repo, so all your devices show the same data. Use a <b class="text-zinc-300">private repo</b> for the data (your site repo can be separate). Make a fine-grained token limited to that repo with <b class="text-zinc-300">Contents: Read and write</b>. The token stays only in this browser &mdash; it is never written into the page or the repo.</p>
+      <div class="grid sm:grid-cols-2 gap-4 mt-5">
+        <div><label class="text-xs text-zinc-400 font-medium block mb-2">GitHub username</label><input id="gOwner" type="text" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false"></div>
+        <div><label class="text-xs text-zinc-400 font-medium block mb-2">Data repo name</label><input id="gRepo" type="text" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false" placeholder="rankforge-data"></div>
+        <div><label class="text-xs text-zinc-400 font-medium block mb-2">Branch</label><input id="gBranch" type="text" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false" placeholder="main"></div>
+        <div><label class="text-xs text-zinc-400 font-medium block mb-2">File path</label><input id="gPath" type="text" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false" placeholder="rankforge-data.json"></div>
+      </div>
+      <div class="mt-4"><label class="text-xs text-zinc-400 font-medium block mb-2">Access token</label><input id="gToken" type="password" class="fld w-full h-11 px-4 font-mono2" autocomplete="off" spellcheck="false" placeholder="github_pat_..."></div>
+      <div class="flex flex-wrap gap-2.5 mt-5">
+        <button id="gSave" class="btn-lime rounded-2xl px-5 py-3 font-display font-bold text-sm flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 pointer-events-none"></i> SAVE &amp; SYNC</button>
+        <button id="gNow" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">SYNC NOW</button>
+        <button id="gCopy" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">COPY SETUP CODE</button>
+        <button id="gOff" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">DISCONNECT</button>
+      </div>
+      <div id="gMsg" class="text-[11px] font-mono2 text-zinc-500 mt-4">Not connected &mdash; data lives only in this browser.</div>
+      <div class="mt-5 pt-5 border-t border-white/8">
+        <label class="text-xs text-zinc-400 font-medium block mb-2">Setting up another device? Paste the setup code here</label>
+        <div class="flex gap-2"><input id="gCode" type="text" class="fld flex-1 min-w-0 h-11 px-4 font-mono2 text-xs" autocomplete="off" spellcheck="false" placeholder="paste setup code"><button id="gApply" class="btn-ghost rounded-xl px-5 font-display font-bold text-xs">APPLY</button></div>
+      </div>
+    </div>
+
+    <div data-rv class="card p-6 md:p-8 mt-5">
+      <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500 flex items-center gap-2"><i data-lucide="database" class="w-4 h-4 text-viol"></i> BACKUP</div>
+      <div class="flex flex-wrap gap-2.5 mt-5">
+        <button id="bkExport" class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm">EXPORT JSON</button>
+        <label class="btn-ghost rounded-2xl px-5 py-3 font-display font-bold text-sm cursor-pointer">IMPORT &amp; MERGE<input id="bkImport" type="file" accept="application/json,.json" class="hidden"></label>
+      </div>
+    </div>
+
+    <div data-rv class="card p-6 md:p-8 mt-5 border-redx/20">
+      <div class="text-[10px] font-mono2 tracking-[.22em] text-redx/80 flex items-center gap-2"><i data-lucide="skull" class="w-4 h-4"></i> DANGER ZONE</div>
+      <div class="flex flex-wrap items-center justify-between gap-4 mt-4">
+        <div class="text-sm text-zinc-400 max-w-md">Erase everything — current week, sealed history, contract. The forge forgets, permanently.</div>
+        <button id="eraseData" class="rounded-2xl px-5 py-3 text-sm font-display font-bold border border-redx/40 text-redx hover:bg-redx hover:text-white transition-all duration-300">ERASE ALL DATA</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ ADD TEST MODAL ============ -->
+<div id="modalWrap" class="hidden fixed inset-0 z-[95]">
+  <div class="absolute inset-0 bg-black/80" data-close="1"></div>
+  <div class="absolute inset-0 overflow-y-auto grid place-items-center p-4">
+    <div id="modalPanel" class="relative w-full max-w-2xl card p-6 md:p-8 my-8" style="background:#0b0e15">
+      <button class="btn-ghost absolute top-4 right-4 w-9 h-9 rounded-xl grid place-items-center" data-close="1"><i data-lucide="x" class="w-4 h-4 pointer-events-none"></i></button>
+      <div class="text-[10px] font-mono2 tracking-[.22em] text-zinc-500">NEW ENTRY</div>
+      <h3 class="font-display font-extrabold text-3xl text-white mt-1.5 tracking-tight">LOG A TEST</h3>
+
+      <div class="mt-6">
+        <label class="text-xs text-zinc-400 font-medium block mb-2">Test label</label>
+        <input id="mName" type="text" maxlength="40" class="fld w-full h-11 px-4 font-medium" placeholder="e.g. Allen Minor 12 · Physics blast">
+      </div>
+
+      <div class="mt-5">
+        <label class="text-xs text-zinc-400 font-medium block mb-2">Paper total marks</label>
+        <div id="sizeChips" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div class="mt-5">
+        <label class="text-xs text-zinc-400 font-medium block mb-2">Day of this week</label>
+        <div id="dayChips" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div class="mt-6 grid sm:grid-cols-2 gap-x-6 gap-y-5">
+        <div>
+          <div class="flex justify-between items-baseline mb-2"><label class="text-xs text-zinc-400 font-medium flex items-center gap-1.5"><i data-lucide="atom" class="w-3.5 h-3.5 text-lime-neon"></i> Physics</label><span class="num font-mono2 text-sm text-lime-neon font-bold" id="vP">0</span></div>
+          <input type="range" id="sP" min="0" max="180" step="1" value="0" style="--rc:#c8ff3d">
+        </div>
+        <div>
+          <div class="flex justify-between items-baseline mb-2"><label class="text-xs text-zinc-400 font-medium flex items-center gap-1.5"><i data-lucide="flask-conical" class="w-3.5 h-3.5 text-viol"></i> Chemistry</label><span class="num font-mono2 text-sm text-viol font-bold" id="vC">0</span></div>
+          <input type="range" id="sC" min="0" max="180" step="1" value="0" style="--rc:#8b7bff">
+        </div>
+        <div>
+          <div class="flex justify-between items-baseline mb-2"><label class="text-xs text-zinc-400 font-medium flex items-center gap-1.5"><i data-lucide="leaf" class="w-3.5 h-3.5 text-ice"></i> Botany</label><span class="num font-mono2 text-sm text-ice font-bold" id="vB">0</span></div>
+          <input type="range" id="sB" min="0" max="180" step="1" value="0" style="--rc:#7de2ff">
+        </div>
+        <div>
+          <div class="flex justify-between items-baseline mb-2"><label class="text-xs text-zinc-400 font-medium flex items-center gap-1.5"><i data-lucide="paw-print" class="w-3.5 h-3.5 text-gold"></i> Zoology</label><span class="num font-mono2 text-sm text-gold font-bold" id="vZ">0</span></div>
+          <input type="range" id="sZ" min="0" max="180" step="1" value="0" style="--rc:#ffd75e">
+        </div>
+      </div>
+
+      <div class="mt-6 grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-xs text-zinc-400 font-medium block mb-2">Correct answers</label>
+          <input id="mCorrect" type="number" min="0" max="180" value="0" class="fld num w-full h-11 px-4 font-mono2 font-bold">
+        </div>
+        <div>
+          <label class="text-xs text-zinc-400 font-medium block mb-2">Wrong answers</label>
+          <input id="mWrong" type="number" min="0" max="180" value="0" class="fld num w-full h-11 px-4 font-mono2 font-bold">
+        </div>
+      </div>
+
+      <div class="mt-6 rounded-2xl bg-white/4 border border-white/8 p-4 grid grid-cols-3 divide-x divide-white/8 text-center">
+        <div><div class="text-[9px] font-mono2 tracking-[.15em] text-zinc-500">TOTAL</div><div class="num font-display font-extrabold text-2xl text-white mt-1" id="liveTotal">0<span class="text-zinc-600 text-sm">/720</span></div></div>
+        <div><div class="text-[9px] font-mono2 tracking-[.15em] text-zinc-500">ACCURACY</div><div class="num font-display font-extrabold text-2xl text-white mt-1" id="liveAcc">—</div></div>
+        <div><div class="text-[9px] font-mono2 tracking-[.15em] text-zinc-500">ATTEMPTED</div><div class="num font-display font-extrabold text-2xl text-white mt-1" id="liveAtt">0</div></div>
+      </div>
+
+      <div id="mErr" class="hidden mt-4 text-xs font-mono2 text-redx bg-redx/10 border border-redx/25 rounded-xl px-4 py-2.5"></div>
+
+      <button id="btnSaveTest" class="btn-lime w-full rounded-2xl py-4 font-display font-bold text-sm mt-6 flex items-center justify-center gap-2"><i data-lucide="check" class="w-4 h-4 pointer-events-none"></i> SEAL THE ENTRY</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VERDICT OVERLAY ============ -->
+<div id="verdictWrap" class="hidden fixed inset-0 z-[130]"></div>
+
+<!-- ============ TOASTS ============ -->
+<div id="toasts" class="fixed bottom-24 lg:bottom-8 right-4 lg:right-8 z-[150] flex flex-col gap-2.5 items-end"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+/* =========================================================================
+   RANKFORGE — Weekly NEET Grind OS
+========================================================================= */
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const pad2 = n => String(n).padStart(2,'0');
+const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const DAYS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const COL = { lime:'#c8ff3d', viol:'#8b7bff', ice:'#7de2ff', red:'#ff3d5c', gold:'#ffd75e', amber:'#ffb020' };
+const G = window.gsap;
+let _iconQ=false;
+function icons(){ if(_iconQ) return; _iconQ=true; queueMicrotask(()=>{ _iconQ=false; if(window.lucide) lucide.createIcons(); }); }
+function clamp(v,a,b){ return Math.min(b, Math.max(a, v)); }
+const tmax = t => t.max||720;
+const nrm  = t => t.total/tmax(t)*720;
+function esc(s){ return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+/* ---------------- date / week utils ---------------- */
+function iso(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function startOfWeek(d=new Date()){ const t=new Date(d); const idx=(t.getDay()+6)%7; t.setDate(t.getDate()-idx); t.setHours(0,0,0,0); return t; }
+function curWeekId(){ return iso(startOfWeek()); }
+function todayIdx(){ return (new Date().getDay()+6)%7; }
+function weekNumber(id){ const s=new Date(id+'T00:00:00'); const j1=new Date(s.getFullYear(),0,1); return Math.max(1, Math.ceil((((s-j1)/864e5)+j1.getDay()+1)/7)); }
+function fmtRange(id){ const s=new Date(id+'T00:00:00'); const e=new Date(s); e.setDate(e.getDate()+6); return `${pad2(s.getDate())} ${MONTHS[s.getMonth()]} — ${pad2(e.getDate())} ${MONTHS[e.getMonth()]}`; }
+function dayDate(i){ const s=new Date(S.week.id+'T00:00:00'); const d=new Date(s); d.setDate(d.getDate()+i); return d; }
+
+/* ---------------- state ---------------- */
+const KEY = 'rankforge_v1';
+let S = null;
+function defaultState(){ return { v:1, settings:{ minTests:6, minAvg:480, minAcc:85, reward:'A proper feast + guilt-free evening', sizes:[720,360], defaultSize:720, sound:true }, week:{ id:curWeekId(), tests:[] }, history:[], seen:{}, deleted:{}, settingsAt:0, updatedAt:0, resetAt:0 }; }
+function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function save(){ S.updatedAt=Date.now(); saveLocal(); queueSync(); }
+function fixState(){ const d=defaultState().settings; for(const k in d) if(S.settings[k]===undefined) S.settings[k]=d[k];
+  if(!S.history) S.history=[]; if(!S.seen) S.seen={}; if(!S.deleted) S.deleted={};
+  ['settingsAt','updatedAt','resetAt'].forEach(k=>{ if(!S[k]) S[k]=0; });
+  S.week.tests.forEach(t=>{ if(!t.max) t.max=720; }); }
+function load(){
+  try{ S = JSON.parse(localStorage.getItem(KEY)); }catch(e){ S = null; }
+  if(!S || S.v !== 1) S = defaultState();
+  if(!S.settings) S.settings = defaultState().settings;
+  if(!S.history) S.history = [];
+  if(!S.seen) S.seen = {};
+  fixState();
+  rollover();
+  save();
+}
+function computeStats(tests){
+  const n = tests.length;
+  const total = tests.reduce((a,t)=>a+t.total,0);
+  const normTotal = tests.reduce((a,t)=>a+nrm(t),0);
+  const correct = tests.reduce((a,t)=>a+t.correct,0);
+  const attempted = tests.reduce((a,t)=>a+t.attempted,0);
+  const avg = n ? normTotal/n : 0;
+  const acc = attempted ? correct/attempted*100 : 0;
+  let best = null;
+  tests.forEach(t=>{ if(!best || nrm(t) > nrm(best)) best = t; });
+  const byDay = Array.from({length:7},()=>[]);
+  tests.forEach(t=>{ const d=new Date(t.date+'T00:00:00'); const i=(d.getDay()+6)%7; if(i>=0&&i<7) byDay[i].push(t); });
+  const daysActive = byDay.filter(a=>a.length).length;
+  let streak = 0;
+  let i = todayIdx();
+  if(byDay[i] && byDay[i].length===0) i--;              // grace: today not over yet
+  for(; i>=0; i--){ if(byDay[i].length) streak++; else break; }
+  return { n, total, normTotal, avg, acc, correct, attempted, best, byDay, daysActive, streak };
+}
+function evalWeek(st, s){
+  const checks = [
+    { key:'tests', label:'Tests taken',      cur: st.n,                    tgt: s.minTests, unit:'',    ok: st.n >= s.minTests },
+    { key:'avg',   label:'Average score',    cur: Math.round(st.avg),      tgt: s.minAvg,   unit:'/720',ok: st.n>0 && st.avg >= s.minAvg },
+    { key:'acc',   label:'Average accuracy', cur: +(st.acc.toFixed(1)),    tgt: s.minAcc,   unit:'%',   ok: st.attempted>0 && st.acc >= s.minAcc },
+  ];
+  return { checks, met: checks.every(c=>c.ok) };
+}
+function grindOrders(st, s){
+  const out = [];
+  if(st.n === 0){ out.push({icon:'rocket', txt:`ZERO TESTS LOGGED — fire the first shot today. The contract demands ${s.minTests}.`}); return out; }
+  const tn = s.minTests - st.n;
+  if(tn > 0) out.push({icon:'calendar-days', txt:`Log <b class="text-white">${tn} more test${tn>1?'s':''}</b> before Sunday ends.`});
+  if(st.avg < s.minAvg){
+    const base = Math.max(s.minTests, st.n);
+    if(tn > 0){
+      const per = Math.ceil((s.minAvg*base - st.normTotal)/tn);
+      out.push({icon:'trending-up', txt: per>720
+        ? `Score bar unreachable mathematically — <b class="text-white">go all out anyway</b>, damage control matters.`
+        : `Score <b class="text-white">≥ ${per}/720</b> in each remaining test to hold the ${s.minAvg} average.`});
+    } else {
+      const k = Math.ceil((s.minAvg*st.n - st.normTotal)/Math.max(1,(720-s.minAvg)));
+      out.push({icon:'trending-up', txt:`Average short by <b class="text-white">${Math.ceil(s.minAvg-st.avg)}</b> — ${isFinite(k)&&k>0?`about <b class="text-white">${k}</b> near-perfect extra test${k>1?'s':''} can still redeem it.`:'bank a monster score to pull it up.'}`});
+    }
+  }
+  if(st.acc < s.minAcc) out.push({icon:'crosshair', txt:`Accuracy bleeding at <b class="text-white">${st.acc.toFixed(1)}%</b> — needs ≥ ${s.minAcc}%. Attempt clean, skip the coin-flips.`});
+  if(!out.length) out.push({icon:'shield', txt:'All clauses green. Hold the line till Sunday.'});
+  return out;
+}
+
+/* ---------------- week rollover ---------------- */
+function rolloverState(st){
+  const id = curWeekId();
+  if(st.week.id === id) return false;
+  if(st.week.tests.length){
+    const x = computeStats(st.week.tests);
+    const ev = evalWeek(x, st.settings);
+    st.history = (st.history||[]).filter(h=>!(h.id===st.week.id && (h.n||0)<=x.n));
+    if(!st.history.some(h=>h.id===st.week.id)){
+      st.history.unshift({ id:st.week.id, range:fmtRange(st.week.id), wno:weekNumber(st.week.id),
+        n:x.n, total:x.total, avg:x.avg, acc:x.acc, best:x.best?{total:Math.round(nrm(x.best)),name:x.best.name,date:x.best.date}:null,
+        daysActive:x.daysActive, checks:ev.checks, met:ev.met, reward:st.settings.reward });
+    }
+    st.history = st.history.slice(0,52);
+  }
+  st.week = { id, tests:[] };
+  return true;
+}
+function rollover(){
+  if(rolloverState(S)){ save(); setTimeout(()=>toast('New week forged — the slate is clean.','lime'), 600); }
+}
+
+/* ---------------- fx engine (confetti / rain) ---------------- */
+const fx = {
+  cv:null, ctx:null, raf:null, parts:[], sparks:[], rockets:[], mode:null, running:false,
+  init(){ this.cv = $('#fx'); this.ctx = this.cv.getContext('2d'); this.resize(); window.addEventListener('resize', ()=>this.resize()); },
+  resize(){ const d=Math.min(2,devicePixelRatio||1); this.cv.width=innerWidth*d; this.cv.height=innerHeight*d; this.cv.style.width=innerWidth+'px'; this.cv.style.height=innerHeight+'px'; this.ctx.setTransform(d,0,0,d,0,0); },
+  burst(x,y,n,colors){ const cs=colors||[COL.lime,COL.gold,'#ffffff',COL.viol];
+    for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, sp=4+Math.random()*9;
+      this.parts.push({t:'c', x,y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-3, g:.18, rot:Math.random()*Math.PI, vr:(Math.random()-.5)*.3, w:5+Math.random()*7, h:8+Math.random()*8, col:cs[(Math.random()*cs.length)|0], life:1, dk:.004+Math.random()*.004 }); }
+    this.ensure(); },
+  cannon(side){ const x = side==='L' ? -10 : innerWidth+10; const y = innerHeight*.78; const a0 = side==='L' ? -Math.PI/2.6 : -Math.PI+Math.PI/2.6;
+    for(let i=0;i<30;i++){ const a=a0+(Math.random()-.5)*.7, sp=11+Math.random()*7;
+      this.parts.push({t:'c', x,y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, g:.16, rot:Math.random()*Math.PI, vr:(Math.random()-.5)*.35, w:5+Math.random()*7, h:8+Math.random()*9, col:[COL.lime,COL.gold,'#ffffff',COL.viol][(Math.random()*4)|0], life:1, dk:.003 }); } },
+  rainDrop(){ this.parts.push({t:'r', x:Math.random()*(innerWidth+200)-100, y:-30-Math.random()*innerHeight*.5, vx:.6+Math.random()*.8, vy:6+Math.random()*6, len:12+Math.random()*22, col: Math.random()<.55 ? COL.red : '#5b2231', op:.25+Math.random()*.5 }); },
+  spark(x,y,n,col){
+    if(this.sparks.length>1500) return;
+    n=Math.round(n*(matchMedia('(pointer:coarse)').matches?.6:1));
+    const pal=[COL.gold,COL.lime,'#ffffff',COL.viol,COL.ice,'#ff6fae','#ff9a3d'];
+    const base=col||pal[(Math.random()*pal.length)|0], alt=pal[(Math.random()*pal.length)|0], ring=Math.random()<.5;
+    for(let i=0;i<n;i++){ const a=(i/n)*Math.PI*2+Math.random()*.2, sp=(ring?4.4:1.4+Math.random()*5.6)+Math.random()*.8;
+      this.sparks.push({x,y,px:x,py:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,dk:.011+Math.random()*.012,col:Math.random()<.75?base:alt}); }
+  },
+  rocket(xf,yf){
+    if(!this.running) return;
+    const x=innerWidth*(xf!=null?xf:.12+Math.random()*.76);
+    this.rockets.push({x,y:innerHeight+10,vx:(Math.random()-.5)*1.2,vy:-(12+Math.random()*4),ty:innerHeight*(yf!=null?yf:.12+Math.random()*.33)});
+    this.ensure();
+  },
+  start(mode){ this.mode=mode; this.running=true; const now=performance.now();
+    if(mode==='confetti'){
+      this.t0=now; this.cannonsUntil=now+5200; this.nextCannon=now; this.showUntil=now+12500; this.nextRocket=now+600; this.finale=false;
+      this.burst(innerWidth/2, innerHeight*.35, 260); this.cannon('L'); this.cannon('R');
+      for(let i=0;i<5;i++) setTimeout(()=>this.rocket(.1+i*.2,.14+Math.random()*.2), 250+i*170);
+    }
+    this.ensure(); },
+  ensure(){ this.cv.style.display='block'; if(!this.raf){ const loop=(t)=>{ this.step(t); this.raf=requestAnimationFrame(loop); }; this.raf=requestAnimationFrame(loop); } },
+  stop(){ this.running=false; this.mode=null; this.rockets=[]; },
+  step(t){
+    const ctx=this.ctx, W=innerWidth, H=innerHeight; ctx.clearRect(0,0,W,H);
+    if(this.running && this.mode==='confetti'){
+      if(t>=this.nextCannon && t<=this.cannonsUntil){ this.cannon('L'); this.cannon('R'); this.nextCannon=t+620; }
+      if(t<this.showUntil && t>=this.nextRocket){ this.rocket(); if(Math.random()<.3) this.rocket(); this.nextRocket=t+260+Math.random()*340; }
+      if(!this.finale && t>=this.t0+9500){ this.finale=true; for(let i=0;i<9;i++) setTimeout(()=>this.rocket(.06+i*.11,.1+Math.random()*.3), i*130); this.burst(W/2,H*.4,220); }
+    }
+    if(this.running && this.mode==='rain'){ const target=120; let c=0; for(const p of this.parts) if(p.t==='r') c++; for(let i=c;i<target;i++) this.rainDrop(); }
+    this.parts = this.parts.filter(p=>{
+      if(p.t==='c'){ p.vy+=p.g; p.vx*=.985; p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; p.life-=p.dk;
+        if(p.life<=0 || p.y>H+40) return false;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=Math.max(0,p.life); ctx.fillStyle=p.col; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore(); }
+      else { p.x+=p.vx; p.y+=p.vy; if(p.y>H+40) return false;
+        ctx.strokeStyle=p.col; ctx.globalAlpha=p.op; ctx.lineWidth=1.4; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x-p.vx*2, p.y-p.len); ctx.stroke(); }
+      return true;
+    });
+    // rockets + firework sparks (additive glow)
+    ctx.globalCompositeOperation='lighter';
+    this.rockets = this.rockets.filter(r=>{
+      r.x+=r.vx; r.y+=r.vy; r.vy*=.992;
+      if(r.y<=r.ty || r.vy>-2){ this.spark(r.x,r.y,78+((Math.random()*30)|0)); if(Math.random()<.35) this.spark(r.x,r.y,36,'#ffffff'); return false; }
+      ctx.globalAlpha=1; ctx.strokeStyle='#ffe9a8'; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(r.x-r.vx*3,r.y-r.vy*3); ctx.lineTo(r.x,r.y); ctx.stroke();
+      return true;
+    });
+    ctx.lineWidth=2;
+    this.sparks = this.sparks.filter(q=>{
+      q.px=q.x; q.py=q.y; q.vx*=.968; q.vy=q.vy*.968+.05; q.x+=q.vx; q.y+=q.vy; q.life-=q.dk;
+      if(q.life<=0) return false;
+      ctx.globalAlpha=q.life; ctx.strokeStyle=q.col; ctx.beginPath(); ctx.moveTo(q.px,q.py); ctx.lineTo(q.x,q.y); ctx.stroke();
+      return true;
+    });
+    ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=1;
+    if(!this.running && !this.parts.length && !this.sparks.length && !this.rockets.length && this.raf){ cancelAnimationFrame(this.raf); this.raf=null; ctx.clearRect(0,0,W,H); this.cv.style.display='none'; }
+  }
+};
+
+/* ---------------- fanfare (WebAudio, no files) ---------------- */
+let _ac=null;
+function fanfare(){
+  if(S.settings.sound===false) return;
+  try{
+    _ac = _ac || new (window.AudioContext||window.webkitAudioContext)();
+    const ac=_ac; if(ac.state==='suspended') ac.resume();
+    const tone=(f,t,d,g)=>{ const o=ac.createOscillator(), a=ac.createGain(); o.type='triangle'; o.frequency.value=f;
+      a.gain.setValueAtTime(0,t); a.gain.linearRampToValueAtTime(g,t+.02); a.gain.exponentialRampToValueAtTime(.001,t+d);
+      o.connect(a); a.connect(ac.destination); o.start(t); o.stop(t+d+.05); };
+    const t0=ac.currentTime+.05;
+    [[523.25,0],[659.25,.14],[783.99,.28],[1046.5,.42],[783.99,.64],[1046.5,.78],[1318.5,.95]].forEach(n=>tone(n[0],t0+n[1],.35,.16));
+    [523.25,659.25,783.99,1046.5,1568].forEach(f=>tone(f,t0+1.3,1.5,.07));
+  }catch(e){}
+}
+
+/* ---------------- toasts ---------------- */
+function toast(msg, type='lime'){
+  const w=$('#toasts');
+  const el=document.createElement('div');
+  const cols={ lime:'border-lime-neon/40 text-lime-neon', red:'border-redx/40 text-redx', amber:'border-amberx/40 text-amberx' };
+  el.className=`card px-4 py-3 text-xs font-mono2 font-medium bg-[#0a0d13]/95 border ${cols[type]||cols.lime} shadow-2xl max-w-xs`;
+  el.textContent=msg;
+  w.appendChild(el);
+  if(G) G.fromTo(el,{x:60,opacity:0},{x:0,opacity:1,duration:.5,ease:'power3.out'});
+  setTimeout(()=>{ if(G){ G.to(el,{x:60,opacity:0,duration:.4,ease:'power2.in',onComplete:()=>el.remove()}); } else el.remove(); }, 3200);
+}
+
+/* ---------------- counters ---------------- */
+function countUp(el, to, {dec=0, suffix='', dur=900}={}){
+  const from = 0, t0 = performance.now();
+  if(el._cu) cancelAnimationFrame(el._cu);
+  function tick(t){
+    const p = Math.min(1,(t-t0)/dur);
+    const e = 1-Math.pow(2,-10*p);
+    const v = from+(to-from)*e;
+    el.textContent = dec ? v.toFixed(dec)+suffix : Math.round(v).toLocaleString('en-IN').replace(/,/g,',')+suffix;
+    if(p<1) (el._cu=requestAnimationFrame(tick)); else el.textContent = dec ? to.toFixed(dec)+suffix : Math.round(to).toLocaleString('en-IN')+suffix;
+  }
+  (el._cu=requestAnimationFrame(tick));
+}
+
+/* ================= RENDER ================= */
+let prevMet = null, lastStats = null, chartProg = 1, hoverIdx = -1, chartAnimId = null;
+
+function renderHeader(){
+  $('#weekTitle').textContent = 'WEEK ' + pad2(weekNumber(S.week.id));
+  $('#weekRange').textContent = fmtRange(S.week.id);
+  const ti = todayIdx();
+  const left = 6-ti;
+  $('#weekDaysLeft').textContent = ti===6 ? 'VERDICT FALLS TODAY' : `${left} DAY${left===1?'':'S'} TO PAYDAY`;
+  const st = lastStats, ev = evalWeek(st, S.settings);
+  const pill = $('#weekPill');
+  if(ti===6){ pill.textContent='— VERDICT DAY —'; pill.className='text-[10px] font-mono2 font-semibold tracking-[.2em] px-3 py-1.5 rounded-full pill-lime'; }
+  else if(ev.met){ pill.textContent='— REWARD SECURED —'; pill.className='text-[10px] font-mono2 font-semibold tracking-[.2em] px-3 py-1.5 rounded-full pill-lime'; }
+  else { pill.textContent='— AT RISK —'; pill.className='text-[10px] font-mono2 font-semibold tracking-[.2em] px-3 py-1.5 rounded-full pill-dark text-amberx'; }
+}
+function renderStats(anim){
+  const st = lastStats, s = S.settings;
+  const set = (id,val,opt)=>{ const el=$('#'+id); if(anim) countUp(el,val,opt); else el.textContent=(opt&&opt.dec?val.toFixed(opt.dec):Math.round(val).toLocaleString('en-IN'))+(opt?suffixClean(opt.suffix):''); };
+  function suffixClean(x){return x||'';}
+  set('stTests', st.n, {dur:700});
+  $('#stTestsSub').textContent = `target: ${s.minTests}`;
+  set('stTotal', st.total, {dur:1000});
+  set('stAvg', st.avg, {dur:1000});
+  if(st.attempted>0){ set('stAcc', st.acc, {dec:1, suffix:'%', dur:1000}); $('#stAccSub').textContent=`${st.correct}/${st.attempted} correct`; }
+  else { $('#stAcc').textContent='—'; $('#stAccSub').textContent='no attempts yet'; }
+  if(st.best){ set('stBest', Math.round(nrm(st.best)),{dur:900}); const d=new Date(st.best.date+'T00:00:00'); $('#stBestSub').textContent=`${DAYS[(d.getDay()+6)%7]} · ${st.best.total}/${tmax(st.best)} · ${st.best.name}`; }
+  else { $('#stBest').textContent='—'; $('#stBestSub').textContent='no test yet'; }
+  $('#stDays').innerHTML = `${st.daysActive}<span class="text-zinc-600 text-2xl">/7</span>`;
+  $('#stStreak').textContent = `streak: ${st.streak} day${st.streak===1?'':'s'}`;
+}
+function renderDays(){
+  const grid = $('#daysGrid'); const ti = todayIdx();
+  let html='';
+  for(let i=0;i<7;i++){
+    const d = dayDate(i);
+    const tests = lastStats.byDay[i];
+    const isToday = i===ti, isFuture = i>ti;
+    html += `<div class="card ${isToday?'border-lime-neon/40 shadow-[0_0_30px_-10px_rgba(200,255,61,.35)]':''} ${isFuture?'opacity-40':''} p-4 flex flex-col min-h-[168px]" >
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="font-display font-bold text-[13px] ${isToday?'text-lime-neon':'text-white'}">${DAYS[i]}</div>
+          <div class="text-[10px] font-mono2 text-zinc-500 mt-0.5">${pad2(d.getDate())} ${MONTHS[d.getMonth()]}</div>
+        </div>
+        ${isToday?'<span class="text-[8px] font-mono2 tracking-[.15em] bg-lime-neon/15 text-lime-neon border border-lime-neon/30 rounded-full px-2 py-1">TODAY</span>':''}
+        ${i===6?'<span class="text-[8px] font-mono2 tracking-[.15em] bg-gold/10 text-gold border border-gold/25 rounded-full px-2 py-1">PAYDAY</span>':''}
+      </div>
+      <div class="flex-1 flex flex-col gap-1.5 mt-3">`;
+    if(tests.length){
+      tests.forEach(t=>{
+        html += `<div class="trow rounded-lg border border-white/6 px-2.5 py-2 flex items-center gap-2">
+          <div class="min-w-0 flex-1">
+            <div class="text-[10px] font-mono2 text-zinc-400 truncate">${esc(t.name)}</div>
+            <div class="text-[9px] font-mono2 text-zinc-600">${t.attempted? (t.correct/t.attempted*100).toFixed(0)+'% acc' : 'no acc data'}</div>
+          </div>
+          <div class="num font-display font-bold text-sm ${nrm(t)>=S.settings.minAvg?'text-lime-neon':'text-white'}">${t.total}${tmax(t)!==720?`<span class="text-zinc-600 text-[9px]">/${tmax(t)}</span>`:''}</div>
+          <button class="delbtn w-6 h-6 rounded-md grid place-items-center text-zinc-600 hover:text-redx hover:bg-redx/10 transition-colors" data-del="${t.id}" title="Delete"><i data-lucide="trash-2" class="w-3 h-3 pointer-events-none"></i></button>
+        </div>`;
+      });
+    } else if(!isFuture){
+      html += `<button class="quickadd flex-1 rounded-lg border border-dashed border-white/12 text-zinc-600 hover:text-lime-neon hover:border-lime-neon/40 transition-all text-[10px] font-mono2 tracking-[.12em] grid place-items-center py-3" data-quick="${iso(d)}">+ LOG TEST</button>`;
+    } else {
+      html += `<div class="flex-1 grid place-items-center text-[10px] font-mono2 text-zinc-700">UPCOMING</div>`;
+    }
+    html += `</div></div>`;
+  }
+  grid.innerHTML = html;
+  icons();
+  $$('.delbtn').forEach(b=>{
+    b.onclick = e=>{
+      e.stopPropagation();
+      if(b.dataset.arm){ removeTest(b.dataset.del); }
+      else { b.dataset.arm='1'; b.innerHTML='<span class="text-[8px] font-mono2 text-redx pointer-events-none">SURE</span>'; setTimeout(()=>{ if(document.body.contains(b) && !b.dataset.done){ b.dataset.arm=''; b.innerHTML='<i data-lucide="trash-2" class="w-3 h-3 pointer-events-none"></i>'; icons(); } },2000); }
+    };
+  });
+  $$('.quickadd').forEach(b=> b.onclick = ()=> openModal(b.dataset.quick));
+}
+function renderStakes(){
+  const st=lastStats, s=S.settings, ev=evalWeek(st,s), ti=todayIdx();
+  const big=$('#stakesStatus'), sub=$('#stakesSub');
+  big.classList.remove('shimmer-lime','shimmer-gold','text-amberx','text-redx','text-gold');
+  if(ti===6){
+    big.textContent = ev.met ? 'PAYDAY' : 'JUDGMENT';
+    big.classList.add(ev.met?'shimmer-gold':'text-redx');
+    sub.textContent = ev.met ? 'Contract fulfilled. The reward is legally yours — claim it.' : 'The week is over and the contract was broken. Face it.';
+  } else if(ev.met){
+    big.textContent='SECURED'; big.classList.add('shimmer-lime');
+    sub.textContent = `Every clause is green${st.n>0?' with '+(6-ti)+' day'+(6-ti===1?'':'s')+' to spare':''}. Reward locked for Sunday: \u201C${s.reward}\u201D`;
+  } else {
+    big.textContent='AT RISK'; big.classList.add('text-amberx');
+    sub.textContent = st.n===0 ? 'No tests logged yet. The contract is unsigned by effort — start today.' : 'The contract is not met yet. Below are your marching orders.';
+  }
+  // day segments
+  let seg='';
+  for(let i=0;i<7;i++){
+    const done = st.byDay[i].length>0;
+    const cur = i===ti;
+    seg += `<div class="h-1.5 flex-1 rounded-full ${done?'bg-lime-neon':cur?'bg-amberx blink':'bg-white/10'}" title="${DAYS[i]}"></div>`;
+  }
+  $('#daySegs').innerHTML = seg;
+  // requirement bars
+  const req=$('#reqBars');
+  req.innerHTML = ev.checks.map(c=>{
+    const p = c.tgt>0 ? clamp(c.cur/c.tgt,0,1) : 1;
+    const col = c.ok ? 'bg-lime-neon' : p>.66?'bg-amberx':'bg-redx';
+    const tcol = c.ok ? 'text-lime-neon' : 'text-zinc-400';
+    return `<div>
+      <div class="flex items-center justify-between text-[11px] font-mono2 mb-1.5">
+        <span class="text-zinc-400 flex items-center gap-1.5"><i data-lucide="${c.ok?'check':'x'}" class="w-3 h-3 ${c.ok?'text-lime-neon':'text-redx'}"></i>${c.label}</span>
+        <span class="${tcol} num font-bold">${c.cur}<span class="text-zinc-600">${c.unit||''}</span> <span class="text-zinc-600">/ ${c.tgt}${c.unit==='%'?'%':''}</span></span>
+      </div>
+      <div class="h-1.5 rounded-full bar-track overflow-hidden"><div class="h-full rounded-full bar-fill ${col}" style="transform:scaleX(0)" data-w="${(p*100).toFixed(1)}"></div></div>
+    </div>`;
+  }).join('');
+  icons();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ $$('#reqBars .bar-fill').forEach(el=> el.style.transform = 'scaleX('+(el.dataset.w/100)+')'); }));
+  // grind orders
+  const orders = ev.met ? [{icon:'shield', txt:'All clauses green. Hold the line till Sunday.'}] : grindOrders(st,s);
+  $('#grindList').innerHTML = orders.map(o=>`
+    <div class="flex items-start gap-2.5 rounded-xl bg-white/3 border border-white/8 px-3.5 py-2.5">
+      <i data-lucide="${o.icon}" class="w-3.5 h-3.5 mt-0.5 shrink-0 ${ev.met?'text-lime-neon':'text-amberx'}"></i>
+      <span class="text-[11px] leading-relaxed text-zinc-400">${o.txt}</span>
+    </div>`).join('');
+  icons();
+  // sunday verdict button
+  const vw=$('#verdictBtnWrap');
+  if(ti===6){ vw.classList.remove('hidden');
+    $('#btnVerdict').innerHTML = ev.met
+      ? '<i data-lucide="trophy" class="w-4 h-4 pointer-events-none"></i> CLAIM YOUR REWARD'
+      : '<i data-lucide="skull" class="w-4 h-4 pointer-events-none"></i> FACE THE VERDICT';
+    $('#btnVerdict').onclick = ()=> openVerdict();
+    icons();
+  } else vw.classList.add('hidden');
+  // flip detection (mid-week lock-in celebration)
+  if(prevMet===false && ev.met){
+    fx.burst(innerWidth*.7, 220, 140);
+    toast('Contract complete — reward LOCKED IN for Sunday.','lime');
+  }
+  prevMet = ev.met;
+}
+function renderSubjects(){
+  const st=lastStats;
+  const sums={p:0,c:0,b:0,z:0}; S.week.tests.forEach(t=>{ sums.p+=t.p; sums.c+=t.c; sums.b+=t.b; sums.z+=t.z; });
+  const subMax=S.week.tests.reduce((a,t)=>a+tmax(t)/4,0); const max=Math.max(1, subMax);
+  const rows=[
+    {k:'p', label:'PHYSICS',  icon:'atom',          col:COL.lime, v:sums.p},
+    {k:'c', label:'CHEMISTRY',icon:'flask-conical', col:COL.viol, v:sums.c},
+    {k:'b', label:'BOTANY',   icon:'leaf',          col:COL.ice,  v:sums.b},
+    {k:'z', label:'ZOOLOGY',  icon:'paw-print',     col:COL.gold, v:sums.z},
+  ];
+  $('#subjBars').innerHTML = rows.map(r=>{
+    const p = clamp(r.v/max,0,1)*100;
+    return `<div>
+      <div class="flex items-center justify-between text-[11px] font-mono2 mb-1.5">
+        <span class="text-zinc-400 flex items-center gap-1.5"><i data-lucide="${r.icon}" class="w-3.5 h-3.5" style="color:${r.col}"></i>${r.label}</span>
+        <span class="num font-bold text-white">${r.v}<span class="text-zinc-600"> / ${subMax}</span></span>
+      </div>
+      <div class="h-1.5 rounded-full bar-track overflow-hidden"><div class="h-full rounded-full bar-fill" style="transform:scaleX(0); background:${r.col}" data-w="${p.toFixed(1)}"></div></div>
+    </div>`;
+  }).join('');
+  icons();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ $$('#subjBars .bar-fill').forEach(el=> el.style.transform = 'scaleX('+(el.dataset.w/100)+')'); }));
+}
+
+/* ---------------- chart ---------------- */
+function drawChart(prog=1){
+  const cv=$('#weekChart'); if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const d=Math.min(2,devicePixelRatio||1);
+  const w=cv.clientWidth, h=cv.clientHeight;
+  if(cv.width!==w*d||cv.height!==h*d){ cv.width=w*d; cv.height=h*d; }
+  ctx.setTransform(d,0,0,d,0,0);
+  ctx.clearRect(0,0,w,h);
+  const st=lastStats, target=S.settings.minAvg, ti=todayIdx();
+  const L=34, R=10, T=18, B=30;
+  const plotH=h-T-B, plotW=w-L-R;
+  const colW=plotW/7;
+  const ease=p=>1-Math.pow(1-p,3);
+  const k=ease(clamp(prog,0,1));
+  // gridlines
+  ctx.font='600 9px "JetBrains Mono"'; ctx.textAlign='right'; ctx.textBaseline='middle';
+  [0,180,360,540,720].forEach(v=>{
+    const y=T+plotH-(v/720)*plotH;
+    ctx.strokeStyle='rgba(255,255,255,.05)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(L,y); ctx.lineTo(w-R,y); ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.25)'; ctx.fillText(String(v), L-8, y);
+  });
+  // target line
+  const ty=T+plotH-(target/720)*plotH;
+  ctx.save(); ctx.setLineDash([6,5]); ctx.strokeStyle='rgba(200,255,61,.55)'; ctx.lineWidth=1.4;
+  ctx.beginPath(); ctx.moveTo(L,ty); ctx.lineTo(w-R,ty); ctx.stroke(); ctx.restore();
+  // bars
+  for(let i=0;i<7;i++){
+    const tests=st.byDay[i];
+    const best = tests.reduce((m,t)=>Math.max(m,nrm(t)),0);
+    const cx=L+colW*i+colW/2;
+    const bw=Math.min(colW*.46,44);
+    const bh=(best/720)*plotH*k;
+    const x=cx-bw/2, y=T+plotH-bh;
+    // track ghost
+    ctx.fillStyle='rgba(255,255,255,.03)';
+    roundTop(ctx,x,T,bw,plotH,7); ctx.fill();
+    if(best>0){
+      const gr=ctx.createLinearGradient(0,y,0,T+plotH);
+      const hot = best>=target;
+      gr.addColorStop(0, hot?'rgba(200,255,61,.95)':'rgba(139,123,255,.95)');
+      gr.addColorStop(1, hot?'rgba(200,255,61,.12)':'rgba(139,123,255,.12)');
+      if(i===hoverIdx||i===ti){ ctx.save(); ctx.shadowColor= hot?'rgba(200,255,61,.6)':'rgba(139,123,255,.6)'; ctx.shadowBlur=i===hoverIdx?16:10; }
+      ctx.fillStyle=gr;
+      roundTop(ctx,x,y,bw,Math.max(2,bh),7); ctx.fill();
+      if(i===hoverIdx||i===ti) ctx.restore();
+      // value
+      ctx.font='700 10px "JetBrains Mono"'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+      ctx.fillStyle= hot?'#c8ff3d':'#b9aeff';
+      ctx.fillText(String(Math.round(best*k)), cx, y-5);
+    }
+    // day label
+    ctx.font='600 9px "JetBrains Mono"'; ctx.textAlign='center'; ctx.textBaseline='top';
+    ctx.fillStyle= i===ti ? '#c8ff3d' : 'rgba(255,255,255,.35)';
+    ctx.fillText(DAYS[i], cx, h-B+10);
+    if(i===ti){ ctx.beginPath(); ctx.arc(cx, h-B+24, 2.2, 0, Math.PI*2); ctx.fillStyle='#c8ff3d'; ctx.fill(); }
+  }
+  function roundTop(c,x,y,w,h,r){ r=Math.min(r,h,w/2); c.beginPath(); c.moveTo(x,y+h); c.lineTo(x,y+r); c.arcTo(x,y,x+r,y,r); c.lineTo(x+w-r,y); c.arcTo(x+w,y,x+w,y+r,r); c.lineTo(x+w,y+h); c.closePath(); }
+}
+function animateChart(){
+  if(chartAnimId) cancelAnimationFrame(chartAnimId);
+  const t0=performance.now();
+  const step=t=>{ const p=Math.min(1,(t-t0)/900); drawChart(p); if(p<1) chartAnimId=requestAnimationFrame(step); else chartProg=1; };
+  chartAnimId=requestAnimationFrame(step);
+}
+function bindChartHover(){
+  const cv=$('#weekChart'), tip=$('#ctip'); tip.style.left='0'; tip.style.top='0';
+  cv.addEventListener('pointermove', e=>{
+    const r=cv.getBoundingClientRect();
+    const L=34,R=10; const plotW=r.width-L-R; const colW=plotW/7;
+    const i=Math.floor((e.clientX-r.left-L)/colW);
+    if(i<0||i>6){ hoverIdx=-1; tip.classList.add('hidden'); drawChart(1); return; }
+    if(hoverIdx!==i){
+      hoverIdx=i; drawChart(1);
+      const tests=lastStats.byDay[i];
+      if(tests.length){
+        tip.innerHTML = `<div class="text-lime-neon font-bold mb-1">${DAYS[i]}</div>`+tests.map(t=>`<div class="flex justify-between gap-4"><span class="text-zinc-400">${esc(t.name)}</span><span class="text-white font-bold">${t.total}${tmax(t)!==720?'/'+tmax(t):''}</span></div>`).join('');
+        tip.classList.remove('hidden');
+      } else { tip.innerHTML=`<span class="text-zinc-500">${DAYS[i]} · no test logged</span>`; tip.classList.remove('hidden'); }
+    }
+    tip.style.transform=`translate3d(${Math.min(r.width-140,Math.max(4,e.clientX-r.left+14))}px,${Math.max(4,e.clientY-r.top-10)}px,0)`;
+  });
+  cv.addEventListener('pointerleave', ()=>{ hoverIdx=-1; tip.classList.add('hidden'); drawChart(1); });
+}
+
+/* ---------------- history ---------------- */
+function renderHistory(){
+  const list=$('#histList');
+  if(!S.history.length){
+    list.innerHTML=`<div class="card p-10 text-center border-dashed">
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-white/4 border border-white/10 grid place-items-center floaty"><i data-lucide="ghost" class="w-6 h-6 text-zinc-500"></i></div>
+      <div class="font-display font-bold text-white mt-4">NO SEALED WEEKS YET</div>
+      <div class="text-xs text-zinc-500 mt-2 max-w-sm mx-auto leading-relaxed">Finish this week and it will be archived here on Monday — verdict stamped, stats frozen forever.</div>
+    </div>`;
+    icons(); return;
+  }
+  list.innerHTML = S.history.map((w,i)=>{
+    const badge = w.met
+      ? `<span class="flex items-center gap-1.5 text-[10px] font-mono2 font-bold tracking-[.15em] px-3 py-1.5 rounded-full bg-lime-neon/12 text-lime-neon border border-lime-neon/30"><i data-lucide="trophy" class="w-3 h-3"></i>REWARDED</span>`
+      : `<span class="flex items-center gap-1.5 text-[10px] font-mono2 font-bold tracking-[.15em] px-3 py-1.5 rounded-full bg-redx/10 text-redx border border-redx/30"><i data-lucide="skull" class="w-3 h-3"></i>DENIED</span>`;
+    const chips = [
+      ['tests', w.n], ['avg', Math.round(w.avg)], ['acc', (w.attempted? w.acc.toFixed(1):'0')+'%'], ['days', w.daysActive+'/7']
+    ];
+    const detail = w.checks.map(c=>`
+      <div class="rounded-xl bg-white/3 border border-white/8 px-3.5 py-3 flex items-center justify-between">
+        <span class="text-[11px] font-mono2 text-zinc-400 flex items-center gap-2"><i data-lucide="${c.ok?'check':'x'}" class="w-3.5 h-3.5 ${c.ok?'text-lime-neon':'text-redx'}"></i>${c.label}</span>
+        <span class="num text-[11px] font-mono2 font-bold ${c.ok?'text-lime-neon':'text-redx'}">${c.cur}${c.unit||''}${c.unit==='%'?'%':''} <span class="text-zinc-600">/ ${c.tgt}${c.unit==='%'?'%':''}</span></span>
+      </div>`).join('');
+    return `<div class="hist-row card overflow-hidden cursor-pointer" data-i="${i}">
+      <div class="p-5 flex items-center gap-4 flex-wrap">
+        <div class="w-11 h-11 rounded-2xl grid place-items-center font-display font-extrabold text-sm ${w.met?'bg-lime-neon/12 text-lime-neon border border-lime-neon/25':'bg-redx/8 text-redx border border-redx/20'}">${pad2(w.wno||weekNumber(w.id))}</div>
+        <div class="min-w-0">
+          <div class="font-display font-bold text-white text-sm">WEEK ${pad2(w.wno||weekNumber(w.id))} <span class="text-zinc-600 font-mono2 text-[10px] font-medium ml-1">${w.range}</span></div>
+          <div class="flex gap-2 mt-1.5 flex-wrap">
+            <span class="text-[9px] font-mono2 text-zinc-500 bg-white/4 border border-white/8 rounded-full px-2 py-0.5 num">${w.n} tests</span>
+            <span class="text-[9px] font-mono2 text-zinc-500 bg-white/4 border border-white/8 rounded-full px-2 py-0.5 num">avg ${Math.round(w.avg)}</span>
+            <span class="text-[9px] font-mono2 text-zinc-500 bg-white/4 border border-white/8 rounded-full px-2 py-0.5 num">${w.acc.toFixed(1)}% acc</span>
+            <span class="text-[9px] font-mono2 text-zinc-500 bg-white/4 border border-white/8 rounded-full px-2 py-0.5 num">best ${w.best?w.best.total:'—'}</span>
+          </div>
+        </div>
+        <div class="ml-auto flex items-center gap-3">${badge}<i data-lucide="chevron-down" class="chev w-4 h-4 text-zinc-600"></i></div>
+      </div>
+      <div class="expwrap"><div>
+        <div class="px-5 pb-5 pt-1 grid sm:grid-cols-3 gap-2.5">${detail}</div>
+        ${w.met&&w.reward?`<div class="px-5 pb-5 text-[11px] font-mono2 text-gold flex items-center gap-2"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i>Reward claimed: “${esc(w.reward)}”</div>`:''}
+      </div></div>
+    </div>`;
+  }).join('');
+  icons();
+  $$('.hist-row').forEach(r=> r.onclick = ()=>{ r.classList.toggle('open'); r.querySelector('.expwrap').classList.toggle('open'); });
+}
+
+/* ---------------- settings ---------------- */
+function parseSizes(v){
+  const a=[...new Set(String(v).split(/[\s,]+/).map(Number).filter(n=>Number.isFinite(n)&&n>=4&&n<=720&&n%4===0))].sort((x,y)=>y-x);
+  return a.length?a:[720];
+}
+function fillDefaultSel(val){
+  const sz=parseSizes($('#sSizes').value), sel=$('#sDefault');
+  sel.innerHTML=sz.map(m=>`<option value="${m}">${m} marks</option>`).join('');
+  sel.value = sz.includes(+val) ? val : sz[0];
+}
+function renderSettingsInputs(){
+  $('#sTests').value=S.settings.minTests; $('#sAvg').value=S.settings.minAvg; $('#sAcc').value=S.settings.minAcc; $('#sReward').value=S.settings.reward;
+  $('#sSizes').value=S.settings.sizes.join(', '); fillDefaultSel(S.settings.defaultSize); $('#sSound').checked=S.settings.sound!==false;
+  renderSyncInputs();
+}
+function bindSettings(){
+  $('#sSizes').addEventListener('input',()=>fillDefaultSel(+$('#sDefault').value));
+  $$('.stepbtn').forEach(b=> b.onclick=()=>{ const el=$('#'+b.dataset.t); el.value=clamp((+el.value||0)+ (+b.dataset.d), 0, b.dataset.t==='sAvg'?720: b.dataset.t==='sAcc'?100:21); });
+  $('#saveSettings').onclick=()=>{
+    S.settings.minTests=clamp(Math.round(+$('#sTests').value||0),0,21);
+    S.settings.minAvg=clamp(Math.round(+$('#sAvg').value||0),0,720);
+    S.settings.minAcc=clamp(Math.round(+$('#sAcc').value||0),0,100);
+    S.settings.reward=($('#sReward').value||'').trim()||'A well-earned break';
+    const sz=parseSizes($('#sSizes').value); S.settings.sizes=sz; const dv=+$('#sDefault').value; S.settings.defaultSize=sz.includes(dv)?dv:sz[0];
+    S.settings.sound=$('#sSound').checked; S.settingsAt=Date.now(); $('#sSizes').value=sz.join(', ');
+    save(); renderDashboard(false); toast('Contract locked. Sunday will judge accordingly.','lime');
+  };
+  const ez=$('#eraseData');
+  ez.onclick=()=>{
+    if(ez.dataset.arm){ eraseAll(); }
+    else { ez.dataset.arm='1'; ez.textContent='ARE YOU ABSOLUTELY SURE?'; ez.classList.add('bg-redx','text-white'); setTimeout(()=>{ if(document.body.contains(ez)){ ez.dataset.arm=''; ez.textContent='ERASE ALL DATA'; ez.classList.remove('bg-redx','text-white'); } },2600); }
+  };
+}
+
+/* ---------------- modal ---------------- */
+let selDate = null, nameDirty = false, selMax = 720;
+function openModal(dateISO){
+  selDate = dateISO || iso(new Date());
+  const wd = new Date(selDate+'T00:00:00'); const di=(wd.getDay()+6)%7;
+  if(!nameDirty) $('#mName').value = `${DAYS[di]} TEST ${lastStats.byDay[di].length+1}`;
+  selMax = S.settings.sizes.includes(S.settings.defaultSize) ? S.settings.defaultSize : S.settings.sizes[0];
+  buildSizeChips();
+  buildChips();
+  ['sP','sC','sB','sZ'].forEach(id=>{ const r=$('#'+id); r.value=0; r.style.setProperty('--fill','0%'); });
+  $('#mCorrect').value=0; $('#mWrong').value=0;
+  $('#mErr').classList.add('hidden');
+  updateLive();
+  const w=$('#modalWrap'); w.classList.remove('hidden'); document.body.style.overflow='hidden';
+  if(G) G.fromTo('#modalPanel',{y:40,scale:.95,opacity:0},{y:0,scale:1,opacity:1,duration:.55,ease:'power3.out'});
+  icons();
+}
+function closeModal(){ const w=$('#modalWrap');
+  if(G){ G.to('#modalPanel',{y:30,opacity:0,scale:.96,duration:.3,ease:'power2.in',onComplete:()=>{ w.classList.add('hidden'); document.body.style.overflow=''; }}); }
+  else { w.classList.add('hidden'); document.body.style.overflow=''; }
+}
+function applySizeAttrs(){
+  const sub=selMax/4;
+  ['sP','sC','sB','sZ'].forEach(id=>{ const r=$('#'+id); r.max=sub; if(+r.value>sub) r.value=sub; r.style.setProperty('--fill',(sub? r.value/sub*100:0)+'%'); });
+  ['mCorrect','mWrong'].forEach(id=>{ const r=$('#'+id); r.max=sub; if(+r.value>sub) r.value=sub; });
+}
+function buildSizeChips(){
+  const w=$('#sizeChips');
+  w.innerHTML=S.settings.sizes.map(m=>`<button type="button" class="chip-day pill-dark rounded-xl px-3 py-2 text-[10px] font-mono2 tracking-wide ${m===selMax?'on':''}" data-m="${m}">${m} MARKS</button>`).join('');
+  applySizeAttrs();
+  w.querySelectorAll('button').forEach(b=> b.onclick=()=>{ selMax=+b.dataset.m; buildSizeChips(); updateLive(); });
+}
+function buildChips(){
+  const wrap=$('#dayChips'); let h='';
+  for(let i=0;i<7;i++){ const d=dayDate(i); const ds=iso(d);
+    h+=`<button type="button" class="chip-day pill-dark rounded-xl px-3 py-2 text-[10px] font-mono2 tracking-wide ${ds===selDate?'on':''}" data-d="${ds}">${DAYS[i]} ${pad2(d.getDate())}</button>`;
+  }
+  wrap.innerHTML=h;
+  $$('.chip-day').forEach(c=> c.onclick=()=>{ selDate=c.dataset.d; buildChips();
+    if(!nameDirty){ const di=(new Date(selDate+'T00:00:00').getDay()+6)%7; $('#mName').value=`${DAYS[di]} TEST ${lastStats.byDay[di].length+1}`; } });
+}
+let liveQ=0;
+function updateLive(){ if(liveQ) return; liveQ=requestAnimationFrame(()=>{ liveQ=0; updateLiveNow(); }); }
+function updateLiveNow(){
+  const p=+$('#sP').value,c=+$('#sC').value,b=+$('#sB').value,z=+$('#sZ').value;
+  const sub=selMax/4; $('#vP').textContent=p+' / '+sub; $('#vC').textContent=c+' / '+sub; $('#vB').textContent=b+' / '+sub; $('#vZ').textContent=z+' / '+sub;
+  const t=p+c+b+z;
+  $('#liveTotal').innerHTML = `${t}<span class="text-zinc-600 text-sm">/${selMax}</span>`;
+  $('#liveTotal').className = `num font-display font-extrabold text-2xl mt-1 ${t/selMax*720>=S.settings.minAvg?'text-lime-neon':'text-white'}`;
+  const cor=+$('#mCorrect').value||0, wr=+$('#mWrong').value||0, att=cor+wr;
+  $('#liveAcc').textContent = att? (cor/att*100).toFixed(1)+'%' : '—';
+  $('#liveAcc').className = `num font-display font-extrabold text-2xl mt-1 ${att && cor/att*100>=S.settings.minAcc?'text-lime-neon':'text-white'}`;
+  $('#liveAtt').textContent = att;
+  $('#liveAtt').className = `num font-display font-extrabold text-2xl mt-1 ${att>selMax/4?'text-redx':'text-white'}`;
+}
+function bindModal(){
+  ['sP','sC','sB','sZ'].forEach(id=>{ const r=$('#'+id); r.addEventListener('input',()=>{ r.style.setProperty('--fill',(r.value/(selMax/4)*100)+'%'); updateLive(); }); });
+  ['mCorrect','mWrong'].forEach(id=> $('#'+id).addEventListener('input', updateLive));
+  $('#mName').addEventListener('input',()=>{ nameDirty=$('#mName').value.trim().length>0; });
+  $$('#modalWrap [data-close]').forEach(el=> el.addEventListener('click', closeModal));
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(!$('#modalWrap').classList.contains('hidden')) closeModal(); if(!$('#verdictWrap').classList.contains('hidden')) closeVerdict(); } });
+  $('#btnSaveTest').onclick=()=>{
+    const cor=clamp(Math.round(+$('#mCorrect').value||0),0,selMax/4);
+    const wr=clamp(Math.round(+$('#mWrong').value||0),0,selMax/4);
+    const p=+$('#sP').value, c=+$('#sC').value, b=+$('#sB').value, z=+$('#sZ').value;
+    const total=p+c+b+z;
+    const err=$('#mErr');
+    if(cor+wr>selMax/4){ err.textContent=`ERROR: attempted (correct + wrong) cannot exceed ${selMax/4} questions for a ${selMax}-mark paper.`; err.classList.remove('hidden'); if(G) G.fromTo('#modalPanel',{x:-8},{x:0,duration:.4,ease:'elastic.out(1,.35)'}); return; }
+    if(total<=0 && cor+wr===0){ err.textContent='ERROR: enter at least some marks or attempt data — ghost tests don’t count.'; err.classList.remove('hidden'); return; }
+    err.classList.add('hidden');
+    const wd=new Date(selDate+'T00:00:00'); const di=(wd.getDay()+6)%7;
+    const name=($('#mName').value||'').trim() || `${DAYS[di]} TEST ${lastStats.byDay[di].length+1}`;
+    S.week.tests.push({ id:Date.now()+''+Math.floor(Math.random()*999), name, date:selDate, max:selMax, p,c,b,z, total, correct:cor, wrong:wr, attempted:cor+wr });
+    S.week.tests.sort((a,b2)=> a.date<b2.date?-1:1);
+    save(); closeModal(); renderDashboard(true);
+    toast(`“${name}” sealed — ${total}/${selMax} banked.`, total/selMax*720>=S.settings.minAvg?'lime':'amber');
+    nameDirty=false;
+  };
+}
+function removeTest(id){
+  S.week.tests = S.week.tests.filter(t=>t.id!==id); S.deleted[id]=Date.now();
+  save(); renderDashboard(false); toast('Entry shredded from the record.','red');
+  const b=document.querySelector(`[data-del="${id}"]`); if(b) b.dataset.done='1';
+}
+
+/* ---------------- verdict ---------------- */
+function openVerdict(){
+  const st=computeStats(S.week.tests);
+  const ev=evalWeek(st,S.settings);
+  S.seen[S.week.id]=true; save();
+  const w=$('#verdictWrap'); w.classList.remove('hidden'); document.body.style.overflow='hidden';
+  if(ev.met){
+    w.innerHTML = `
+    <div class="absolute inset-0" style="background:radial-gradient(ellipse at 50% 30%, rgba(255,215,94,.12), transparent 55%), linear-gradient(#0a0800,#07080b 70%)"></div>
+    <div class="rays absolute inset-0"></div>
+    <div class="flash absolute inset-0 pointer-events-none" style="background:radial-gradient(circle at 50% 35%,rgba(255,236,170,.85),transparent 60%)"></div>
+    <div class="relative min-h-full grid place-items-center p-6 overflow-y-auto">
+      <div id="verdictPanel" class="text-center max-w-xl w-full py-10">
+        <div class="w-24 h-24 mx-auto rounded-3xl pill-lime pulse-gold grid place-items-center floaty rotate-3"><i data-lucide="trophy" class="w-11 h-11"></i></div>
+        <div class="text-[11px] font-mono2 tracking-[.35em] text-gold mt-10">CONTRACT FULFILLED · WEEK ${pad2(weekNumber(S.week.id))}</div>
+        <h2 class="shimmer-gold font-display font-extrabold tracking-tight leading-[.95] text-[clamp(46px,9vw,92px)] mt-3">REWARD<br>CLAIMED</h2>
+        <div class="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-full bg-gold/10 border border-gold/30 text-gold font-mono2 text-xs"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i>“${esc(S.settings.reward)}”</div>
+        <div class="grid grid-cols-3 gap-3 mt-9">
+          <div class="card p-4"><div class="text-[9px] font-mono2 tracking-[.15em] text-zinc-500">TESTS</div><div class="num font-display font-extrabold text-2xl text-white mt-1" id="vcT">${st.n}</div></div>
+          <div class="card p-4"><div class="text-[9px] font-mono2 tracking-[.15em] text-zinc-500">AVG</div><div class="num font-display font-extrabold text-2xl text-white mt-1" id="vcA">${Math.round(st.avg)}</div></div>
+          <div class="card p-4"><div class="text-[9px] font-mono2 tracking-[.15em] text-zinc-500">ACC</div><div class="num font-display font-extrabold text-2xl text-white mt-1" id="vcC">${st.acc.toFixed(1)}%</div></div>
+        </div>
+        <p class="text-xs text-zinc-500 mt-7 leading-relaxed">Tonight you feast. Monday at 00:00 the forge fires again — the slate wipes clean.</p>
+        <button onclick="closeVerdict()" class="btn-lime rounded-2xl px-8 py-4 font-display font-bold text-sm mt-6">SAVOR IT, SOLDIER</button>
+      </div>
+    </div>`;
+    fx.start('confetti'); fanfare();
+    setTimeout(()=>{ const a=$('#vcT'),b=$('#vcA'),c=$('#vcC'); if(a) countUp(a,st.n,{dur:1200}); if(b) countUp(b,st.avg,{dur:1700}); if(c) countUp(c,st.acc,{dec:1,suffix:'%',dur:1700}); },500);
+    if(G) G.fromTo('#verdictPanel',{scale:.7,opacity:0,y:40},{scale:1,opacity:1,y:0,duration:.9,ease:'back.out(1.5)'});
+  } else {
+    const missed = ev.checks.filter(c=>!c.ok);
+    w.innerHTML = `
+    <div class="absolute inset-0" style="background:radial-gradient(ellipse at 50% 20%, rgba(255,61,92,.14), transparent 55%), linear-gradient(#12040a,#07080b 70%)"></div>
+    <div class="relative min-h-full grid place-items-center p-6 overflow-y-auto">
+      <div id="verdictPanel" class="text-center max-w-xl w-full py-10">
+        <div class="w-24 h-24 mx-auto rounded-3xl bg-redx/10 border border-redx/40 grid place-items-center floaty -rotate-3" style="box-shadow:0 0 60px rgba(255,61,92,.3)"><i data-lucide="skull" class="w-11 h-11 text-redx"></i></div>
+        <div class="text-[11px] font-mono2 tracking-[.35em] text-redx mt-10">CONTRACT BROKEN · WEEK ${pad2(weekNumber(S.week.id))}</div>
+        <h2 class="glitch font-display font-extrabold tracking-tight leading-[.95] text-[clamp(46px,9vw,92px)] mt-3 text-white" data-text="REWARD DENIED">REWARD<br>DENIED</h2>
+        <div class="stamp inline-block mt-6 border-4 border-redx rounded-lg px-6 py-2 text-redx font-display font-extrabold text-xl tracking-[.25em]" style="text-shadow:0 0 20px rgba(255,61,92,.6)">REJECTED</div>
+        <div class="flex flex-col gap-2.5 mt-9 text-left">
+          ${missed.map(c=>`<div class="rounded-xl bg-redx/6 border border-redx/25 px-4 py-3 flex items-center justify-between">
+            <span class="text-xs font-mono2 text-zinc-400 flex items-center gap-2"><i data-lucide="x" class="w-3.5 h-3.5 text-redx"></i>${c.label}</span>
+            <span class="num text-xs font-mono2 font-bold text-redx">${c.cur}${c.unit||''}${c.unit==='%'?'%':''} <span class="text-zinc-600 line-through">/ ${c.tgt}${c.unit==='%'?'%':''}</span></span>
+          </div>`).join('')}
+        </div>
+        <p class="text-xs text-zinc-500 mt-7 leading-relaxed">No reward. No excuses. This failure is now archived in History — let it sting every time you open it. Monday, you rise.</p>
+        <button onclick="closeVerdict()" class="rounded-2xl px-8 py-4 font-display font-bold text-sm mt-6 border border-redx/50 text-redx hover:bg-redx hover:text-white transition-all duration-300">ACCEPT. RISE. REPEAT.</button>
+      </div>
+    </div>`;
+    fx.start('rain');
+    if(G) G.fromTo('#verdictPanel',{scale:.85,opacity:0},{scale:1,opacity:1,duration:.6,ease:'power4.out'});
+    setTimeout(()=>{ const p=$('#verdictPanel'); if(p) p.classList.add('shake'); },420);
+  }
+  icons();
+}
+function closeVerdict(){ fx.stop(); const w=$('#verdictWrap'); w.classList.add('hidden'); w.innerHTML=''; document.body.style.overflow=''; renderDashboard(false); }
+
+/* ---------------- nav / views ---------------- */
+let currentView='dash', dashAnimated=false;
+function showView(v){
+  currentView=v;
+  ['dash','history','settings'].forEach(x=> $('#view-'+x).classList.toggle('hidden', x!==v));
+  $$('.navbtn,.mnavbtn').forEach(b=> b.classList.toggle('on', b.dataset.view===v));
+  const sec=$('#view-'+v);
+  if(G){ G.fromTo(sec.querySelectorAll('[data-rv]'),{y:26,opacity:0},{y:0,opacity:1,duration:.6,stagger:.04,ease:'power3.out',overwrite:true,clearProps:'transform,opacity'}); }
+  if(v==='dash'){ if(!dashAnimated){ animateChart(); dashAnimated=true; } else drawChart(1); }
+  window.scrollTo(0,0);
+}
+
+/* ---------------- dashboard orchestrator ---------------- */
+function renderDashboard(anim){
+  lastStats = computeStats(S.week.tests);
+  renderHeader(); renderStats(anim); renderDays(); renderStakes(); renderSubjects();
+  $('#legendTarget').textContent = S.settings.minAvg;
+  if(document.querySelector('#view-dash').classList.contains('hidden')===false && anim && dashAnimated){ animateChart(); }
+  else if(currentView==='dash' && !anim){ drawChart(1); }
+  icons();
+}
+
+/* ---------------- clocks / cursor / tilt ---------------- */
+function startClock(){
+  const tick=()=>{ if(document.hidden) return; const d=new Date();
+    const t=`${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+    const ts=`${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+    const a=$('#asideClock'); if(a) a.textContent=t;
+    const m=$('#clockM'); if(m) m.textContent=t;
+    const dd=$('#clockD'); if(dd) dd.textContent=ts;
+  };
+  tick(); setInterval(tick,1000);
+  setInterval(()=>{ const before=S.week.id; rollover(); if(S.week.id!==before){ renderDashboard(true); renderHistory(); } },30000);
+}
+function startCursor(){
+  if(matchMedia('(pointer:coarse)').matches) return;
+  const g=$('#cGlow'), d=$('#cDot');
+  let mx=innerWidth/2,my=innerHeight/2,gx=mx,gy=my,raf=0;
+  const loop=()=>{
+    gx+=(mx-gx)*.14; gy+=(my-gy)*.14;
+    d.style.transform=`translate3d(${mx}px,${my}px,0)`;
+    g.style.transform=`translate3d(${gx}px,${gy}px,0)`;
+    raf = (Math.abs(mx-gx)>.4||Math.abs(my-gy)>.4) ? requestAnimationFrame(loop) : 0;
+  };
+  addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; if(!raf) raf=requestAnimationFrame(loop); },{passive:true});
+}
+
+/* ---------------- GitHub sync ---------------- */
+const SYNC_KEY='rankforge_sync_v1';
+let syncTimer=null, syncBusy=false, syncAgain=false, syncStatus='off';
+const b64e = x => btoa(unescape(encodeURIComponent(x)));
+const b64d = x => decodeURIComponent(escape(atob(String(x).replace(/\s/g,''))));
+function stable(o){ return JSON.stringify(o,(k,v)=> v&&typeof v==='object'&&!Array.isArray(v) ? Object.keys(v).sort().reduce((a,x)=>(a[x]=v[x],a),{}) : v); }
+function syncCfg(){
+  try{ const c=JSON.parse(localStorage.getItem(SYNC_KEY)||'null');
+    return (c&&c.token&&c.owner&&c.repo) ? Object.assign({branch:'main',path:'rankforge-data.json'},c) : null; }catch(e){ return null; }
+}
+function setSyncUI(st,msg){
+  syncStatus=st; const c=syncCfg(); const d=new Date();
+  const col={off:'#3a4152',busy:'#ffb020',ok:'#c8ff3d',err:'#ff3d5c'}[st];
+  const txt = st==='off' ? 'Not connected — data lives only in this browser.'
+    : st==='busy' ? 'Syncing…'
+    : st==='ok' ? `Synced ${pad2(d.getHours())}:${pad2(d.getMinutes())} · ${c?c.owner+'/'+c.repo:''}`
+    : (msg||'Sync failed');
+  $$('.syncdot').forEach(el=>{ el.style.background=col; el.title=txt; });
+  const m=$('#gMsg'); if(m){ m.textContent=txt; m.style.color = st==='err'?'#ff3d5c':st==='ok'?'#c8ff3d':''; }
+}
+function ghUrl(c){ return `https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${c.path.split('/').map(encodeURIComponent).join('/')}`; }
+function ghHead(c){ return { 'Authorization':'Bearer '+c.token, 'Accept':'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28' }; }
+function ghErr(code,msg){ const e=new Error(msg); e.code=code; return e; }
+async function ghFetch(url,opt){
+  try{ return await fetch(url,opt); }catch(e){ throw ghErr(0,'Network error — offline? Will retry.'); }
+}
+async function ghGet(c){
+  const r=await ghFetch(ghUrl(c)+'?ref='+encodeURIComponent(c.branch)+'&t='+Date.now(),{headers:ghHead(c),cache:'no-store'});
+  if(r.status===404) return {data:null,sha:null};
+  if(r.status===401||r.status===403) throw ghErr(r.status,'Token rejected or has no Contents access to this repo.');
+  if(!r.ok) throw ghErr(r.status,'GitHub error '+r.status);
+  const j=await r.json(); let data=null;
+  try{ data=JSON.parse(b64d(j.content)); }catch(e){}
+  return {data,sha:j.sha};
+}
+async function ghPut(c,obj,sha){
+  const body={ message:'rankforge sync', content:b64e(JSON.stringify(obj)), branch:c.branch };
+  if(sha) body.sha=sha;
+  const r=await ghFetch(ghUrl(c),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},ghHead(c)),body:JSON.stringify(body)});
+  if(r.status===409||r.status===422) throw ghErr(409,'conflict');
+  if(r.status===404) throw ghErr(404,'Repo or branch not found, or the token cannot access it.');
+  if(r.status===401||r.status===403) throw ghErr(r.status,'Token rejected or lacks "Contents: Read and write".');
+  if(!r.ok) throw ghErr(r.status,'GitHub error '+r.status);
+  return (await r.json()).content.sha;
+}
+function mergeStates(L,R){
+  const lr=L.resetAt||0, rr=R.resetAt||0;
+  if(rr>lr) return R; if(lr>rr) return L;
+  const M={ v:1, resetAt:lr };
+  M.settings = (R.settingsAt||0)>(L.settingsAt||0) ? R.settings : L.settings;
+  M.settingsAt = Math.max(L.settingsAt||0,R.settingsAt||0);
+  M.deleted = Object.assign({},R.deleted||{},L.deleted||{});
+  const ids=new Set(), tests=[];
+  [...(L.week.tests||[]),...(R.week.tests||[])].forEach(t=>{ if(M.deleted[t.id]||ids.has(t.id)) return; ids.add(t.id); tests.push(t); });
+  tests.sort((a,b)=> a.date<b.date?-1:a.date>b.date?1:0);
+  M.week={ id:L.week.id, tests };
+  const hm=new Map();
+  [...(R.history||[]),...(L.history||[])].forEach(h=>{ const o=hm.get(h.id); if(!o||(h.n||0)>(o.n||0)) hm.set(h.id,h); });
+  M.history=[...hm.values()].sort((a,b)=>a.id<b.id?1:-1).slice(0,52);
+  M.seen=Object.assign({},R.seen||{},L.seen||{});
+  M.updatedAt=Math.max(L.updatedAt||0,R.updatedAt||0);
+  return M;
+}
+function refreshAll(){ lastStats=computeStats(S.week.tests); renderDashboard(false); renderHistory(); renderSettingsInputs(); }
+function queueSync(delay){ if(!syncCfg()) return; clearTimeout(syncTimer); syncTimer=setTimeout(()=>syncNow(), delay||1500); }
+async function syncNow(){
+  const c=syncCfg(); if(!c){ setSyncUI('off'); return; }
+  if(syncBusy){ syncAgain=true; return; }
+  syncBusy=true; setSyncUI('busy');
+  try{
+    for(let attempt=0; attempt<3; attempt++){
+      const r=await ghGet(c);
+      const rawRemote = r.data ? stable(r.data) : null;
+      let M=S;
+      if(r.data && r.data.week && r.data.settings){
+        const R=r.data; if(!R.history) R.history=[]; if(!R.deleted) R.deleted={}; if(!R.seen) R.seen={};
+        rolloverState(R); M=mergeStates(S,R);
+      }
+      const before=stable(S); S=M; fixState(); rolloverState(S);
+      const changed = stable(S)!==before;
+      saveLocal();
+      if(changed) refreshAll();
+      if(!r.data || stable(S)!==rawRemote){
+        try{ await ghPut(c,S,r.sha); }catch(e){ if(e.code===409) continue; throw e; }
+      }
+      break;
+    }
+    setSyncUI('ok');
+  }catch(e){ setSyncUI('err', e.message||'Sync failed'); }
+  finally{ syncBusy=false; if(syncAgain){ syncAgain=false; queueSync(600); } }
+}
+async function eraseAll(){
+  S=defaultState(); S.resetAt=Date.now(); S.settingsAt=Date.now(); saveLocal();
+  const c=syncCfg();
+  if(c){ try{ const r=await ghGet(c); await ghPut(c,S,r.sha); }catch(e){} }
+  location.reload();
+}
+function renderSyncInputs(){
+  const c=syncCfg();
+  $('#gOwner').value=c?c.owner:''; $('#gRepo').value=c?c.repo:''; $('#gBranch').value=c?c.branch:''; $('#gPath').value=c?c.path:'';
+  $('#gToken').value=''; $('#gToken').placeholder = c ? '•••••• saved on this device (leave blank to keep)' : 'github_pat_...';
+}
+function bindSync(){
+  const store=c=>{ localStorage.setItem(SYNC_KEY,JSON.stringify(c)); renderSyncInputs(); syncNow(); };
+  $('#gSave').onclick=()=>{
+    const old=syncCfg()||{};
+    const c={ owner:$('#gOwner').value.trim(), repo:$('#gRepo').value.trim(), branch:$('#gBranch').value.trim()||'main', path:$('#gPath').value.trim()||'rankforge-data.json', token:$('#gToken').value.trim()||old.token||'' };
+    if(!c.owner||!c.repo||!c.token){ toast('Fill username, repo and token first.','red'); return; }
+    store(c);
+  };
+  $('#gNow').onclick=()=>{ if(!syncCfg()){ toast('Connect GitHub first.','amber'); return; } syncNow(); };
+  $('#gOff').onclick=()=>{ localStorage.removeItem(SYNC_KEY); renderSyncInputs(); setSyncUI('off'); toast('Sync disconnected on this device.','amber'); };
+  $('#gCopy').onclick=async()=>{
+    const c=syncCfg(); if(!c){ toast('Connect GitHub first.','amber'); return; }
+    const code=b64e(JSON.stringify(c));
+    try{ await navigator.clipboard.writeText(code); toast('Setup code copied — paste it on your other device.','lime'); }
+    catch(e){ prompt('Copy this setup code:',code); }
+  };
+  $('#gApply').onclick=()=>{
+    try{ const c=JSON.parse(b64d($('#gCode').value.trim())); if(!c.owner||!c.repo||!c.token) throw 0; $('#gCode').value=''; store(c); toast('Connected — pulling your data…','lime'); }
+    catch(e){ toast('That setup code is invalid.','red'); }
+  };
+  $('#bkExport').onclick=()=>{
+    const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));
+    a.download='rankforge-backup-'+iso(new Date())+'.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  };
+  $('#bkImport').onchange=e=>{
+    const f=e.target.files[0]; if(!f) return; const rd=new FileReader();
+    rd.onload=()=>{ try{
+      const R=JSON.parse(rd.result); if(!R.week||!R.settings) throw 0;
+      R.history=R.history||[]; R.deleted=R.deleted||{}; R.seen=R.seen||{}; rolloverState(R);
+      S=mergeStates(S,R); fixState(); save(); refreshAll(); toast('Backup merged in.','lime');
+    }catch(x){ toast('Not a valid RANKFORGE backup file.','red'); } };
+    rd.readAsText(f); e.target.value='';
+  };
+}
+function startSync(){
+  if(syncCfg()) syncNow(); else setSyncUI('off');
+  setInterval(()=>{ if(!document.hidden && syncCfg()) syncNow(); },60000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden && syncCfg()) syncNow(); });
+  addEventListener('online',()=>{ if(syncCfg()) syncNow(); });
+}
+
+/* ---------------- init ---------------- */
+load();
+fx.init();
+lastStats = computeStats(S.week.tests);
+renderDashboard(true);
+renderHistory();
+renderSettingsInputs();
+dashAnimated=false;
+bindChartHover();
+bindModal();
+bindSettings(); bindSync();
+$$('.navbtn,.mnavbtn').forEach(b=> b.addEventListener('click',()=>showView(b.dataset.view)));
+['btnAdd','sideAdd','mAdd'].forEach(id=>{ const el=$('#'+id); if(el) el.addEventListener('click',()=>openModal()); });
+startClock(); startCursor();
+let _rz=0; new ResizeObserver(()=>{ if(currentView!=='dash'||_rz) return; _rz=requestAnimationFrame(()=>{ _rz=0; drawChart(1); }); }).observe($('#chartCard'));
+showView('dash');
+startSync();
+if(todayIdx()===6 && !S.seen[S.week.id] && (S.week.tests.length>0 || S.history.length>0)){
+  setTimeout(()=>{ if(currentView==='dash') openVerdict(); },1400);
+}
+</script>
+</body>
+</html>
